@@ -43,10 +43,14 @@ const Header = () => {
             }
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        if (typeof window !== "undefined" && document) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            if (typeof window !== "undefined" && document) {
+                document.removeEventListener('mousedown', handleClickOutside);
+            }
         };
     }, []);
 

@@ -9,7 +9,8 @@ import { motion } from 'framer-motion'
 import { fadeIn } from '../../../variants';
 
 // Lottie
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// import Lottie from 'lottie-react';
 
 // Animation
 import buttonAnimationData from './../../../public/animated_videos/emailExtractor_animation.json'
@@ -20,7 +21,7 @@ import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
 
 const EmailExtractor = () => {
-
+    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
     const [animationPlayed, setAnimationPlayed] = useState(false);
     const [textEmailAreaValue, setTextEmailAreaValue] = useState('');
     const [textResultValue, setTextResultValue] = useState('')

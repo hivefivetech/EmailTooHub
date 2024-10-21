@@ -10,15 +10,19 @@ export const metadata = {
 
 // Search Context Provider
 import { SearchContextProvider } from "./context/Search";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import Footer from "./components/Footer";
+import dynamic from 'next/dynamic';
 
 export default function RootLayout({ children }) {
+
+  const ComponentWithNoSSR = dynamic(() => import('./components/Header'), { ssr: false });
+
   return (
     <SearchContextProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Header />
+          <ComponentWithNoSSR />
           {children}
           <Footer />
         </body>

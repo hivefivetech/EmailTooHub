@@ -9,14 +9,15 @@ import { motion, easeInOut } from 'framer-motion'
 import { fadeIn } from "../../../variants";
 
 // Lottie
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// import Lottie from 'lottie-react';
 
 // Animation
 import buttonAnimationData from './../../../public/animated_videos/button_animation.json'
 import ctaAnimationData from './../../../public/animated_videos/cta_animation.json'
 
 const Cta = () => {
-
+    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
     const [animationPlayed, setAnimationPlayed] = useState(false);
 
     const handleButtonClick = () => {

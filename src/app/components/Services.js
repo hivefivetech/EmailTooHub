@@ -1,7 +1,8 @@
 "use client"
 
 // Lottie
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// import Lottie from 'lottie-react';
 
 // Animation
 import monitorBuildAnimationData from './../../../public/animated_videos/monitorBuild_animation.json'
@@ -16,7 +17,7 @@ import { fadeIn } from "../../../variants";
 
 
 const Cars = () => {
-
+    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
     return (
         <section className="h-[1400px] xsm:h-[1200px] sm:h-[1000px] md:h-screen flex items-center" id="services">
             <div className="container mx-auto">

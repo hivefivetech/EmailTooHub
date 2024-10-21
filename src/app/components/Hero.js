@@ -9,7 +9,8 @@ import Search from "./Search"
 import { SearchContext } from "../context/Search"
 
 // Lottie
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// import Lottie from 'lottie-react';
 
 // Animation
 import buttonAnimationData from './../../../public/animated_videos/button_animation.json'
@@ -22,7 +23,7 @@ import { motion, easeInOut } from 'framer-motion'
 import { fadeIn } from "../../../variants";
 
 const Hero = () => {
-
+    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
     const { searchActive } = useContext(SearchContext)
 
     const [animationPlayed, setAnimationPlayed] = useState(false);

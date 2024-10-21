@@ -75,8 +75,10 @@ const Base64Encode = () => {
     };
 
     const handleCopy = () => {
-        inputRef.current.select();
-        document.execCommand('copy');
+        if (typeof window !== "undefined" && document) {
+            inputRef.current.select();
+            document.execCommand('copy');
+        }
     };
 
     const handleDecodeClick = () => {
@@ -100,33 +102,37 @@ const Base64Encode = () => {
     };
 
     const handleCopyDecode = () => {
-        inputRefDecode.current.select();
-        document.execCommand('copy');
+        if (typeof window !== "undefined" && document) {
+            inputRefDecode.current.select();
+            document.execCommand('copy');
+        }
     };
 
     const handleDownload = () => {
-        if (!base64Input) return; // Check if input is empty
-
-        try {
-            const decodedText = atob(base64Input.trim()); // Decode Base64 string
-            const blob = new Blob([decodedText], { type: "text/plain" }); // Create blob from decoded text
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "download.txt"; // Set default file name
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            // Show error message using SweetAlert2
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Invalid Base64 input! Please enter a valid Base64 string.',
-            });
+        if (typeof window !== "undefined" && document) {
+            if (!base64Input) return; // Check if input is empty
+    
+            try {
+                const decodedText = atob(base64Input.trim()); // Decode Base64 string
+                const blob = new Blob([decodedText], { type: "text/plain" }); // Create blob from decoded text
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "download.txt"; // Set default file name
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Invalid Base64 input! Please enter a valid Base64 string.',
+                });
+            }
         }
     };
+    
 
     const handleFileSelect = (event) => {
         const file = event.target.files[0];

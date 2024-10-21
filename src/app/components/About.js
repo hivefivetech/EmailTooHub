@@ -23,12 +23,15 @@ import { motion, easeInOut } from 'framer-motion'
 import { fadeIn } from "../../../variants";
 
 // Lottie
-import Lottie from 'lottie-react';
+import dynamic from 'next/dynamic';
+// import Lottie from 'lottie-react';
 
 // Animation
 import buttonAnimationData from './../../../public/animated_videos/button_animation.json'
 
 const About = () => {
+
+  const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
 
   const [ref, inView] = useInView({
     threshold: 0.5,
