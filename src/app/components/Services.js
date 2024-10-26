@@ -55,7 +55,7 @@ const Cars = () => {
                 {/* <Brands />
                 <CarSlider /> */}
 
-                <div className="my-8">
+                <div className="my-8 mb-20">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
 
                         <motion.div
