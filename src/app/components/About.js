@@ -53,7 +53,7 @@ const About = () => {
             variants={fadeIn('up', 0.2)}
             initial='hidden'
             whileInView={"show"}
-            viewport={{ once: false, amount: 0.6 }}
+            viewport={{ once: true, amount: 0.6 }}
             className="flex-1 mb-8 xl:mb-0"
           >
             <Image className="rounded-[12px]" src={'/images/about/product01.png'} width={600} height={448} alt='' />
@@ -67,7 +67,7 @@ const About = () => {
                 variants={fadeIn('up', 0.4)}
                 initial='hidden'
                 whileInView={"show"}
-                viewport={{ once: false, amount: 0.6 }}
+                viewport={{ once: true, amount: 0.6 }}
                 className="h2"
               >
                 About Blaze Mailer Pro
@@ -77,7 +77,7 @@ const About = () => {
                 variants={fadeIn('up', 0.6)}
                 initial='hidden'
                 whileInView={"show"}
-                viewport={{ once: false, amount: 0.6 }}
+                viewport={{ once: true, amount: 0.6 }}
                 className="mb-[42px] max-w-md"
               >
                 Elevate your outreach with confidence – send over more than 10,000 emails effortlessly, guaranteed inbox delivery, the ultimate marketing tool!
@@ -88,8 +88,8 @@ const About = () => {
                 variants={fadeIn('up', 0.8)}
                 initial='hidden'
                 whileInView={"show"}
-                viewport={{ once: false, amount: 0.2 }}
-                className="flex items-center gap-x-8 mb-12"
+                viewport={{ once: true, amount: 0.2 }}
+                className="flex flex-row flex-wrap items-center gap-8 mb-12"
               >
                 {/* Boost Deliverability */}
                 <div className="flex flex-col w-[100px]">
@@ -135,7 +135,7 @@ const About = () => {
                 variants={fadeIn('up', 1)}
                 initial="hidden"
                 whileInView={"show"}
-                viewport={{ once: false, amount: 0.6 }}
+                viewport={{ once: true, amount: 0.6 }}
                 className="hidden xl:flex gap-x-3 justify-center xl:justify-start"
               >
 

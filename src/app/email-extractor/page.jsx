@@ -117,7 +117,7 @@ const EmailExtractor = () => {
                         variants={fadeIn('down', 0.2)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="h2 text-center"
                     >
                         Email Extractor
@@ -127,7 +127,7 @@ const EmailExtractor = () => {
                         variants={fadeIn('down', 0.4)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="text-description text-center mb-8"
                     >
                         A free online tool to extract email addresses from the text content.
@@ -145,7 +145,7 @@ const EmailExtractor = () => {
                                     variants={fadeIn('right', 0.6)}
                                     initial="hidden"
                                     whileInView={"show"}
-                                    viewport={{ once: false, amount: 0.6 }}
+                                    viewport={{ once: true, amount: 0.6 }}
                                     className='bg-[#ffffff] text-[#666666] p-3 rounded-[10px] border-2 border-solid border-slate-200 outline-none w-[100%] h-[300px] resize-none'
                                     placeholder='Enter the text/content (max: 100k characters)'
                                     value={textEmailAreaValue}
@@ -160,7 +160,7 @@ const EmailExtractor = () => {
                                     variants={fadeIn('up', 0.6)}
                                     initial="hidden"
                                     whileInView={"show"}
-                                    viewport={{ once: false, amount: 0.6 }}
+                                    viewport={{ once: true, amount: 0.6 }}
                                     onClick={handleButtonClick}
                                     className="flex flex-row items-center p-2 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white"
                                 >
@@ -179,7 +179,7 @@ const EmailExtractor = () => {
                                     variants={fadeIn('up', 0.6)}
                                     initial="hidden"
                                     whileInView={"show"}
-                                    viewport={{ once: false, amount: 0.6 }}
+                                    viewport={{ once: true, amount: 0.6 }}
                                     onClick={handleClearButtonClick}
                                     className="flex flex-row items-center p-[1rem] rounded-[10px] bg-gray-400 hover:bg-gray-600 hover:scale-105 transition-all duration-300 text-white"
                                 >
@@ -194,7 +194,7 @@ const EmailExtractor = () => {
                                     variants={fadeIn('right', 0.6)}
                                     initial="hidden"
                                     whileInView={"show"}
-                                    viewport={{ once: false, amount: 0.6 }}
+                                    viewport={{ once: true, amount: 0.6 }}
                                     className='h3'
                                 >
                                     Results
@@ -204,7 +204,7 @@ const EmailExtractor = () => {
                                 variants={fadeIn('right', 0.6)}
                                 initial="hidden"
                                 whileInView={"show"}
-                                viewport={{ once: false, amount: 0.6 }}
+                                viewport={{ once: true, amount: 0.6 }}
                                 class="w-[100%] h-36 overflow-y-auto border-2 border-solid bg-white p-4 rounded-md flex flex-col"
                             >
                                 {textResultValue.split('\n').map((email, index) => (
@@ -219,7 +219,7 @@ const EmailExtractor = () => {
                             variants={fadeIn('left', 0.4)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className='border-s-2 border-solid border-slate-400 pl-[12px]'
                         >
                             Email Extractor is a web based software that helps you extract emails from the bulk of text. And it's completely free to use with some fair usages limit. If you want to extract lots of emails much faster, contact us for premium plans.
@@ -229,7 +229,7 @@ const EmailExtractor = () => {
                             variants={fadeIn('left', 0.6)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className='h3 mt-7 text-[25px]'
                         >
                             What is Email Extractor?
@@ -239,7 +239,7 @@ const EmailExtractor = () => {
                             variants={fadeIn('left', 0.6)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                         >
                             Email Extractor is a simple little tool that will help you find email addresses hidden in a content. Just copy the entire block of text and paste it in the above input box. All you have to do is click on the “Extract Email” button, it will find all the email addresses present in your input text. Any duplicate address will be ignored safely, as a final result, you get a unique list of all emails extracted.
 
@@ -248,7 +248,7 @@ const EmailExtractor = () => {
                             variants={fadeIn('up', 0.6)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             onClick={handleDownloadButtonClick}
                             className="flex flex-row items-center mt-4 p-[1rem] rounded-[10px] bg-gray-400 hover:bg-black hover:scale-105 transition-all duration-300 text-white"
                         >

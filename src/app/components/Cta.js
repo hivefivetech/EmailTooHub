@@ -36,7 +36,7 @@ const Cta = () => {
                             variants={fadeIn('right', 0.2)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className="h2 text-center mb-0"
                         >
                             Download Our Tool Now
@@ -46,7 +46,7 @@ const Cta = () => {
                             variants={fadeIn('right', 0.4)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className="description text-center"
                         >
                             Unlock unparalleled benefits—download our tool now for a seamless and powerful solution that transforms your experience and maximizes productivity.
@@ -57,7 +57,7 @@ const Cta = () => {
                             variants={fadeIn('right', 0.6)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className="flex justify-center md:justify-start"
                         >
                             <button onClick={handleButtonClick} className="flex flex-row items-center p-3 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white">
@@ -80,7 +80,7 @@ const Cta = () => {
                         variants={fadeIn('left', 0.4)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="flex justify-center text-center items-center w-full"
                     >
                         <Lottie

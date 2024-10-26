@@ -28,7 +28,7 @@ const HTMLEditor = () => {
                     variants={fadeIn("down", 0.2)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                     className="h2 text-center"
                 >
                     HTML Editor - Free Web Component Composer
@@ -38,7 +38,7 @@ const HTMLEditor = () => {
                     variants={fadeIn("down", 0.4)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                     className="max-w-[800px] text-center mx-auto mb-5"
                 >
                     Welcome to our free web content composer...
@@ -48,7 +48,7 @@ const HTMLEditor = () => {
                     variants={fadeIn("right", 0.4)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                 >
                     <div className="mt-12">
                         <Editor

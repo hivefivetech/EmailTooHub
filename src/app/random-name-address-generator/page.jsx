@@ -103,7 +103,7 @@ const RandomNameAddressGenerator = () => {
                         variants={fadeIn('down', 0.2)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="h2 text-center"
                     >
                         Random Name Generator
@@ -155,7 +155,7 @@ const RandomNameAddressGenerator = () => {
                         variants={fadeIn('down', 0.2)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="h2 text-center"
                     >
                         Random Address Generator

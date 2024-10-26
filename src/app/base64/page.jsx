@@ -362,7 +362,7 @@ const Base64Encode = () => {
                         variants={fadeIn('down', 0.2)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="h2 text-center"
                     >
                         {tabs[activeTab].heading}
@@ -372,7 +372,7 @@ const Base64Encode = () => {
                         variants={fadeIn('left', 0.4)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="flex flex-wrap"
                     >
                         {tabs.map((tab, index) => (
@@ -390,7 +390,7 @@ const Base64Encode = () => {
                         variants={fadeIn('right', 0.4)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="mt-4 w-[100%]"
                     >
                         {tabs.map((tab, index) => (

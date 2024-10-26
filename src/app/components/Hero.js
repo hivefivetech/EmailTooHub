@@ -44,7 +44,7 @@ const Hero = () => {
                             variants={fadeIn('down', 0.2)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className="h1"
                         >
                             Explore the Finest <span className="text-accent">Email Marketing</span> Tool{' '}
@@ -54,7 +54,7 @@ const Hero = () => {
                             variants={fadeIn('down', 0.4)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.6 }}
+                            viewport={{ once: true, amount: 0.6 }}
                             className="description max-w-[550px] mx-auto xl:mx-0 mb-6 xl:mb-10"
                         >
                             Maximize inbox impact. Elevate your email marketing with precision and ease. Professional, reliable, and user-friendly – the perfect solution for successful campaigns.
@@ -65,7 +65,7 @@ const Hero = () => {
                             variants={fadeIn('down', 0.6)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.8 }}
+                            viewport={{ once: true, amount: 0.8 }}
                             className="flex gap-x-3 justify-center xl:justify-start"
                         >
 
@@ -89,7 +89,7 @@ const Hero = () => {
                         variants={fadeIn('up', 0.6)}
                         initial="hidden"
                         whileInView={"show"}
-                        viewport={{ once: false, amount: 0.6 }}
+                        viewport={{ once: true, amount: 0.6 }}
                         className="xsm:w-full sm:w-[400px] xl:w-full"
                     >
                         <Lottie
@@ -116,7 +116,7 @@ const Hero = () => {
                             variants={fadeIn('up', 0.8)}
                             initial="hidden"
                             whileInView={"show"}
-                            viewport={{ once: false, amount: 0.2 }}
+                            viewport={{ once: true, amount: 0.2 }}
                         >
                             <Search />
                         </motion.div>

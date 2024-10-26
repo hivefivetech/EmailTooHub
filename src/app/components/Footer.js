@@ -1,7 +1,8 @@
 "use client"
 
 // Icons
-import { FaPhone, FaEnvelope } from "react-icons/fa6"
+import { FaTelegram, FaEnvelope } from "react-icons/fa6"
+import { FaTelegramPlane } from "react-icons/fa";
 
 // Framer Motion
 import { motion } from "framer-motion"
@@ -27,7 +28,7 @@ const Footer = () => {
                     variants={fadeIn('up', 0.2)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                     className="flex flex-col lg:flex-row lg:justify-between gap-x-5 gap-y-14"
                 >
                     <div className="flex flex-col flex-1 gap-y-8">
@@ -39,19 +40,31 @@ const Footer = () => {
                         {/* Text */}
                         <div className="text-secondary">Best site for marketing tool</div>
 
-                        {/* Phone & Email */}
+                        {/* Telegram & Email */}
                         <div className="flex flex-col gap-y-4 font-semibold">
 
-                            {/* Phone */}
+                            {/* Telegram */}
                             <div className="flex items-center gap-x-[10px]">
-                                <FaPhone />
-                                <div className="font-medium">(+92)317 ....</div>
+                                <FaTelegramPlane className="w-5 h-5" />
+                                <a
+                                    href="https://t.me/ZplusMan"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="font-medium text-black hover:text-red-700 duration-300"
+                                >
+                                    Zplusman
+                                </a>
                             </div>
 
                             {/* Email */}
                             <div className="flex items-center gap-x-[10px]">
-                                <FaEnvelope />
-                                <div className="font-medium">sm@gmail.com</div>
+                                <FaEnvelope className="w-5 h-5" />
+                                <a
+                                    href="mailto:jetstreammailer@gmail.com"
+                                    className="font-medium text-black hover:text-red-700 duration-300"
+                                >
+                                    jetstreammailer@gmail.com
+                                </a>
                             </div>
 
                         </div>
@@ -88,17 +101,6 @@ const Footer = () => {
                                 <div className="font-semibold">Closed</div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Newsletter */}
-                    <div className="flex-1">
-                        <h3 className="h3 font-bold mb-8">Newsletter</h3>
-                        <div className="mb-9 text-secondary">For dialy updates, do subscribe to our newsletter.</div>
-                        {/* Form */}
-                        <form className="flex gap-x-2 h-14">
-                            <input type="text" placeholder="Your Email Address" className="outline-none bg-white h-full border rounded-lg pl-4 focus:border-accent" />
-                            <button type="submit" className="btn btn-sm btn-accent w-24">Submit</button>
-                        </form>
                     </div>
                 </motion.div>
             </div>

@@ -20,7 +20,7 @@ const Why = () => {
                     variants={fadeIn('up', 0.2)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                     className="h2 text-center"
                 >
                     Unmatched excellence & customer satisfaction
@@ -30,7 +30,7 @@ const Why = () => {
                     variants={fadeIn('up', 0.4)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                     className="max-w-[680px] text-center mx-auto mb-5"
                 >
                     Our dedication to providing exceptional services sets us apart from teh competition. From the moment you engage with us, we strive to exceed your expectations in every interaction.
@@ -41,7 +41,7 @@ const Why = () => {
                     variants={fadeIn('down', 0.6)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.6 }}
+                    viewport={{ once: true, amount: 0.6 }}
                     className="flex justify-center mb-6 xl:mb-8"
                 >
                     {/* <Image src={'/images/why/car.svg'} width={1060} height={420} alt='' /> */}
@@ -53,7 +53,7 @@ const Why = () => {
                     variants={fadeIn('up', 0.8)}
                     initial="hidden"
                     whileInView={"show"}
-                    viewport={{ once: false, amount: 0.4 }}
+                    viewport={{ once: true, amount: 0.4 }}
                     className="flex flex-wrap justify-center xl:grid xl:grid-cols-3 gap-4 xl:gap-y-0 xl:gap-x-[30px]"
                 >
                     {/* Item 1 */}
