@@ -70,7 +70,7 @@ const About = () => {
                 viewport={{ once: true, amount: 0.6 }}
                 className="h2"
               >
-                About Blaze Mailer Pro
+                About JetStream Mailer
               </motion.h2>
 
               <motion.p
