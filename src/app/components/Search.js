@@ -18,7 +18,7 @@ const Search = () => {
 
     return (
         <div className={`${searchActive ? 'bg-white rounded-none xl:h-[80px]' : 'bg-white rounded-[20px] py-6 xl:h-[98px]'} hidden xl:block w-full relative shadow-lg`}>
-            <div className={`flex h-full ${searchActive && 'container mx-auto mt-3'}`}>
+            <div className={`flex h-full ${searchActive && 'container mx-auto'}`}>
                 {/* <LocationSelection /> */}
                 {/* <DateSelection />
                 <HoursSelection /> */}
