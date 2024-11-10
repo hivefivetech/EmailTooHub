@@ -25,22 +25,22 @@ import Image from "next/image"
 // Data
 const testimonialData = [
     {
-        message: 'This tool truly exceeded my expectations, and made email marketing easy.',
-        avatar: '/images/testimonial/avatar.png',
-        name: 'Jane Doe',
-        job: 'Photographer & Videographer',
+        message: 'This tool made my email campaigns seamless and incredibly effective!',
+        avatar: '/images/testimonial/avatar1.png',
+        name: 'Alice Nguyen',
+        job: 'Digital Marketing Specialist',
     },
     {
-        message: 'I am making 6 figures with the help of this tool.',
-        avatar: '/images/testimonial/avatar.png',
-        name: 'Max Kane',
-        job: 'Freelancer',
+        message: 'A fantastic tool that helped me scale my business outreach effortlessly.',
+        avatar: '/images/testimonial/avatar3.png',
+        name: 'Liam Turner',
+        job: 'E-commerce Entrepreneur',
     },
     {
-        message: 'It helped me alot in my business.',
-        avatar: '/images/testimonial/avatar.png',
-        name: 'Warden Leon',
-        job: 'Businessman',
+        message: 'Simplified my workflow and improved my email engagement rates substantially.',
+        avatar: '/images/testimonial/avatar2.png',
+        name: 'Sofia Patel',
+        job: 'Content Strategist',
     },
 ]
 
@@ -70,7 +70,9 @@ const TestimonialSlider = () => {
                                 <div className="text-2xl xl:text-4xl max-w-[874px] mb-12 font-medium">
                                     {message}
                                 </div>
-                                <Image src={avatar} width={64} height={64} alt='' className="mb-4" />
+                                <div className="mb-4 w-16 h-16 rounded-full bg-red-500 overflow-hidden">
+                                    <Image src={avatar} alt='' width={64} height={64} />
+                                </div>
                                 <div className="text-lg font-medium">
                                     {name}
                                 </div>
