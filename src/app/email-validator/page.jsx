@@ -17,7 +17,7 @@ const EmailAddressValidator = () => {
                     viewport={{ once: true, amount: 0.6 }}
                     className="h2 text-center"
                 >
-                    Free Email Address Validator
+                    Free Email Address Valdator
                 </motion.h2>
 
                 <motion.h3
