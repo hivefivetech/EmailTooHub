@@ -25,7 +25,7 @@ const EmailExtractor = () => {
     const [animationPlayed, setAnimationPlayed] = useState(false);
     const [textEmailAreaValue, setTextEmailAreaValue] = useState('');
     const [textResultValue, setTextResultValue] = useState('')
-
+    const [copyFormat, setCopyFormat] = useState('comma');
     const [extractedEmails, setExtractedEmails] = useState();
 
     const handleButtonClick = () => {
@@ -63,6 +63,41 @@ const EmailExtractor = () => {
     const handleClearButtonClick = () => {
         setTextEmailAreaValue('');
         setTextResultValue('');
+    };
+
+    const handleCopyEmails = () => {
+        let formattedEmails = '';
+
+        switch (copyFormat) {
+            case 'comma':
+                formattedEmails = textResultValue.replace(/\n/g, ',');
+                break;
+            case 'linebreak':
+                formattedEmails = textResultValue;
+                break;
+            case 'semicolon':
+                formattedEmails = textResultValue.replace(/\n/g, ';');
+                break;
+            case 'pipe':
+                formattedEmails = textResultValue.replace(/\n/g, '|');
+                break;
+            case 'json':
+                formattedEmails = JSON.stringify(textResultValue.split('\n'), null, 2);
+                break;
+            case 'array':
+                formattedEmails = `[${textResultValue.split('\n').map(email => `"${email}"`).join(', ')}]`;
+                break;
+        }
+
+        navigator.clipboard.writeText(formattedEmails).then(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Copied!',
+                text: 'Emails copied to clipboard.',
+                timer: 1500,
+                showConfirmButton: false
+            });
+        });
     };
 
     function extractEmails(text) {
@@ -162,17 +197,9 @@ const EmailExtractor = () => {
                                     whileInView={"show"}
                                     viewport={{ once: true, amount: 0.6 }}
                                     onClick={handleButtonClick}
-                                    className="flex flex-row items-center p-2 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white"
+                                    className="flex flex-row items-center py-4 px-2 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white"
                                 >
                                     <p>Extract Email</p>
-                                    <Lottie
-                                        key={animationPlayed}
-                                        animationData={buttonAnimationData}
-                                        loop={false}
-                                        autoplay={animationPlayed}
-                                        className="w-[50px]"
-                                        onComplete={() => setAnimationPlayed(false)}
-                                    />
                                 </motion.button>
 
                                 <motion.button
@@ -186,6 +213,32 @@ const EmailExtractor = () => {
                                     Clear
                                 </motion.button>
                             </div>
+                        </div>
+
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
+                            <select
+                                className="border border-gray-300 p-2 rounded-md text-gray-700 bg-white outline-none"
+                                value={copyFormat}
+                                onChange={(e) => setCopyFormat(e.target.value)}
+                            >
+                                <option value="comma">Comma Separated (,)</option>
+                                <option value="semicolon">Semicolon Separated (;)</option>
+                                <option value="pipe">Pipe Separated (|)</option>
+                                <option value="linebreak">Line Break (\n)</option>
+                                <option value="json">JSON Array Format</option>
+                                <option value="array">JavaScript Array Format</option>
+                            </select>
+
+                            <motion.button
+                                variants={fadeIn('up', 0.6)}
+                                initial="hidden"
+                                whileInView={"show"}
+                                viewport={{ once: true, amount: 0.6 }}
+                                onClick={handleCopyEmails}
+                                className="flex flex-row items-center p-3 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white"
+                            >
+                                Copy Emails
+                            </motion.button>
                         </div>
 
                         <div className='w-[100%]'>
@@ -205,7 +258,7 @@ const EmailExtractor = () => {
                                 initial="hidden"
                                 whileInView={"show"}
                                 viewport={{ once: true, amount: 0.6 }}
-                                class="w-[100%] h-36 overflow-y-auto border-2 border-solid bg-white p-4 rounded-md flex flex-col"
+                                className="w-[100%] h-36 overflow-y-auto border-2 border-solid bg-white p-4 rounded-md flex flex-col"
                             >
                                 {textResultValue.split('\n').map((email, index) => (
                                     <p key={index}>{email}</p>

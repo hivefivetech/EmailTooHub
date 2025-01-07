@@ -22,14 +22,12 @@ import { BiMenuAltRight, BiX } from 'react-icons/bi';
 import { SearchContext } from "../context/Search";
 
 const Header = () => {
-
     const { setSearchActive } = useContext(SearchContext)
 
     const [header, setHeader] = useState(false);
     const [nav, setNav] = useState(false);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
     const dropdownRef = useRef(null);
 
     const toggleDropdown = () => {
@@ -84,12 +82,29 @@ const Header = () => {
         };
     });
 
+    useEffect(() => {
+        const handleNavigation = () => {
+            setNav(false);
+            setDropdownOpen(false);
+        };
+
+        document.querySelectorAll("a, button").forEach((element) => {
+            element.addEventListener("click", handleNavigation);
+        });
+
+        return () => {
+            document.querySelectorAll("a, button").forEach((element) => {
+                element.removeEventListener("click", handleNavigation);
+            });
+        };
+    }, []);
+
     return (
         <header className={`${header ? 'bg-white shadow-md py-2' : 'bg-transparent shadow-none py-4'} fixed w-full max-w-[1920px] z-20 transition-all duration-300`}>
             <div className="xl:container mx-auto flex flex-col xl:flex-row xl:items-center xl:justify-between">
                 <div className="flex justify-between items-center px-4">
                     {/* Logo */}
-                    <Link href="/" smooth={desktopMode} spy={true} className="cursor-pointer">
+                    <Link href="/" className="cursor-pointer">
                         <Image src={'/icons/logo_175x83.png'} width={75} height={50} alt='' />
                     </Link>
 
@@ -104,9 +119,7 @@ const Header = () => {
                     <Link
                         className="cursor-pointer hover:font-bold duration-300"
                         href="/"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        activeclass="active"
                     >
                         Home
                     </Link>
@@ -119,72 +132,66 @@ const Header = () => {
                         >
                             Services
                         </div>
-                        <div className={`absolute flex flex-col w-44 bg-white border border-gray-300 rounded shadow-lg ${dropdownOpen ? '' : 'hidden'}`}>
-                            <Link href="email-extractor" smooth={true} spy={true} className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Extractor</Link>
+                        <div className={`absolute left-1/2 xl:left-[57%] flex flex-col w-44 bg-white border border-gray-300 rounded shadow-lg ${dropdownOpen ? '' : 'hidden'}`}>
+                            <Link href="email-extractor" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Extractor</Link>
                             <a href="https://html-editor.emailtoolhub.com/" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Html Editor</a>
                             <a href="https://inbox-checker.emailtoolhub.com/" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Inbox Checker</a>
-                            <Link href="base64" smooth={true} spy={true} className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Base64</Link>
-                            <Link href="email-validator" smooth={true} spy={true} className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Validator</Link>
-                            <Link href="random-name-address-generator" smooth={true} spy={true} className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Random Name & Address Generator</Link>
+                            <Link href="base64" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Base64</Link>
+                            <Link href="email-validator" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Validator</Link>
+                            <Link href="random-name-address-generator" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Random Name & Address Generator</Link>
                         </div>
                     </div>
 
-                    <Link
+                    <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
-                        href="/"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        to="services"
+                        activeclass="active"
+
                     >
                         Features
-                    </Link>
+                    </ScrollLink>
 
-                    <Link
+                    <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
-                        href="/"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        to="about"
+                        activeclass="active"
+
                     >
                         About
-                    </Link>
+                    </ScrollLink>
 
-                    <Link
+                    <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
-                        href="/"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        to="why"
+                        activeclass="active"
+
                     >
                         Why Us
-                    </Link>
+                    </ScrollLink>
 
-                    <Link
+                    <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
-                        href="/"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        to="testimonial"
+                        activeclass="active"
+
                     >
                         Testimonials
-                    </Link>
+                    </ScrollLink>
 
                     <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
                         to="contact"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        activeclass="active"
+
                     >
                         Contact
                     </ScrollLink>
 
                     <Link
-                        className="xl:hidden btn btn-primary btn-sm max-w-[164px] mx-auto"
+                        className="hidden btn btn-primary btn-sm max-w-[164px] mx-auto"
                         href="/"
-                        activeClass="active"
-                        smooth={desktopMode}
-                        spy={true}
+                        activeclass="active"
+
                     >
                         See All Cars
                     </Link>

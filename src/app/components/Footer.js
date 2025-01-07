@@ -33,7 +33,7 @@ const Footer = () => {
                 >
                     <div className="flex flex-col flex-1 gap-y-8">
                         {/* Logo */}
-                        <Link to="home" smooth={true} spy={true} className="cursor-pointer">
+                        <Link to="home" className="cursor-pointer">
                             <Image src={'/icons/logo_175x83.png'} width={75} height={75} alt='' />
                         </Link>
 

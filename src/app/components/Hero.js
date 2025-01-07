@@ -29,7 +29,8 @@ const Hero = () => {
     const [animationPlayed, setAnimationPlayed] = useState(false);
 
     const handleButtonClick = () => {
-        setAnimationPlayed(true);
+        // setAnimationPlayed(true);
+        window.open('https://t.me/ZplusMan', '_blank');
     };
 
     return (
@@ -71,14 +72,14 @@ const Hero = () => {
 
                             <button onClick={handleButtonClick} className="flex flex-row items-center p-3 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white">
                                 <p>Download Now</p>
-                                <Lottie
+                                {/* <Lottie
                                     key={animationPlayed}
                                     animationData={buttonAnimationData}
                                     loop={false}
                                     autoplay={animationPlayed}
                                     className="w-[50px]"
-                                    onComplete={() => setAnimationPlayed(false)} // Reset animationPlayed when the animation completes
-                                />
+                                // onComplete={() => setAnimationPlayed(false)}
+                                /> */}
                             </button>
 
                         </motion.div>
@@ -121,7 +122,6 @@ const Hero = () => {
                             <Search />
                         </motion.div>
                     </div>
-
             }
         </section>
     )
