@@ -66,6 +66,15 @@ const EmailExtractor = () => {
     };
 
     const handleCopyEmails = () => {
+        if (!textResultValue.trim()) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Result box is empty!',
+            });
+            return;
+        }
+        
         let formattedEmails = '';
 
         switch (copyFormat) {
