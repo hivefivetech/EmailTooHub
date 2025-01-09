@@ -74,7 +74,7 @@ const EmailExtractor = () => {
             });
             return;
         }
-        
+
         let formattedEmails = '';
 
         switch (copyFormat) {
@@ -262,17 +262,15 @@ const EmailExtractor = () => {
                                     Results
                                 </motion.h3>
                             </div>
-                            <motion.div
+                            <motion.textarea
                                 variants={fadeIn('right', 0.6)}
                                 initial="hidden"
                                 whileInView={"show"}
                                 viewport={{ once: true, amount: 0.6 }}
-                                className="w-[100%] h-36 overflow-y-auto border-2 border-solid bg-white p-4 rounded-md flex flex-col"
-                            >
-                                {textResultValue.split('\n').map((email, index) => (
-                                    <p key={index}>{email}</p>
-                                ))}
-                            </motion.div>
+                                className="bg-[#ffffff] text-[#666666] p-3 rounded-[10px] border-2 border-solid border-slate-200 outline-none w-[100%] h-[200px] resize-none overflow-y-auto overflow-x-auto"
+                                value={textResultValue}
+                                readOnly
+                            />
                         </div>
 
                     </div>
