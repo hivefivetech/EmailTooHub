@@ -1,85 +1,118 @@
-"use client"
-
-// Next Image 
-import Image from "next/image"
+"use client";
 
 // Framer Motion
-import { motion, easeInOut } from 'framer-motion'
+import { motion } from "framer-motion";
 
 // Variants
 import { fadeIn } from "../../../variants";
 
 // Icons
-import { MdHandshake, MdKey, MdTrendingUp } from "react-icons/md";
+import { MdEmail, MdOutlineSecurity, MdTrendingUp } from "react-icons/md";
 
 const Why = () => {
     return (
-        <section className="section h-[1300px] xsm:h-[1200px] sm:h-full xl:h-[1000px] flex items-center" id="why">
-            <div className="container mx-auto">
+        <section
+            className="relative flex items-center justify-center bg-gradient-to-b from-[#f9fafb] to-[#e5e7eb] py-12 sm:py-16 md:py-20 min-h-screen overflow-hidden"
+            id="why"
+        >
+            <div className="container mx-auto px-6 sm:px-10 lg:px-16">
+                {/* Header */}
                 <motion.h2
-                    variants={fadeIn('up', 0.2)}
+                    variants={fadeIn("up", 0.2)}
                     initial="hidden"
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.6 }}
-                    className="h2 text-center"
+                    className="text-3xl sm:text-4xl font-bold text-center text-gray-900 mb-6"
                 >
-                    Unmatched excellence & customer satisfaction
+                    Why Choose Email Tool Hub?
                 </motion.h2>
 
                 <motion.p
-                    variants={fadeIn('up', 0.4)}
+                    variants={fadeIn("up", 0.4)}
                     initial="hidden"
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.6 }}
-                    className="max-w-[680px] text-center mx-auto mb-5"
+                    className="max-w-[700px] mx-auto text-center text-gray-600 mb-10"
                 >
-                    Our dedication to providing exceptional services sets us apart from teh competition. From the moment you engage with us, we strive to exceed your expectations in every interaction.
+                    Discover innovative features and unmatched reliability that make us
+                    the preferred choice for email marketers worldwide.
                 </motion.p>
 
-                {/* Car Image */}
-                <motion.div
-                    variants={fadeIn('down', 0.6)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.6 }}
-                    className="flex justify-center mb-6 xl:mb-8"
-                >
-                    {/* <Image src={'/images/why/car.svg'} width={1060} height={420} alt='' /> */}
-                    <iframe className="rounded-[10px] xsm:h-[200px] sm:h-[300px] xl:h-[350px] xsm:w-[450px] sm:w-[500px] md:w-[550px] lg:w-[600px] xl:w-[650px]" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowFullScreen></iframe>
-                </motion.div>
+                {/* Unique Features Section */}
+                <div className="relative flex flex-col-reverse xl:flex-row items-center justify-between gap-8">
+                    {/* Left Animated Section */}
+                    <motion.div
+                        variants={fadeIn("up", 0.6)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: true, amount: 0.6 }}
+                        className="flex-1 flex flex-col items-center xl:items-start gap-y-6"
+                    >
+                        {/* Feature 1 */}
+                        <div className="flex items-center gap-4">
+                            <MdEmail className="text-5xl text-accent" />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Advanced Email Management
+                                </h3>
+                                <p className="text-gray-600">
+                                    Streamline your email campaigns with precision and ease.
+                                </p>
+                            </div>
+                        </div>
 
-                {/* Grid Items */}
-                <motion.div
-                    variants={fadeIn('up', 0.8)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.4 }}
-                    className="flex flex-wrap justify-center xl:grid xl:grid-cols-3 gap-4 xl:gap-y-0 xl:gap-x-[30px]"
-                >
-                    {/* Item 1 */}
-                    <div className="flex flex-col items-center text-center max-w-[160px] xl:max-w-none p-2 xl:p-0">
-                        <MdKey className="text-[38px] text-accent mb-4" />
-                        <h3 className="h3">Learn Easily & Quickly</h3>
-                        <p className="hidden xl:flex">We prioritize your need and we go above and beyond to ensure your experience with us is nothing short of outstanding.</p>
-                    </div>
+                        {/* Feature 2 */}
+                        <div className="flex items-center gap-4">
+                            <MdOutlineSecurity className="text-5xl text-accent" />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Robust Security
+                                </h3>
+                                <p className="text-gray-600">
+                                    Enjoy secure email operations with industry-standard protocols.
+                                </p>
+                            </div>
+                        </div>
 
-                    {/* Item 2 */}
-                    <div className="flex flex-col items-center text-center max-w-[160px] xl:max-w-none p-2 xl:p-0">
-                        <MdTrendingUp className="text-[38px] text-accent mb-4" />
-                        <h3 className="h3">Modern & Well Maintained Tool</h3>
-                        <p className="hidden xl:flex">Experience the epitome of modern efficiency with our well-maintained tool.</p>
-                    </div>
+                        {/* Feature 3 */}
+                        <div className="flex items-center gap-4">
+                            <MdTrendingUp className="text-5xl text-accent" />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Data-Driven Insights
+                                </h3>
+                                <p className="text-gray-600">
+                                    Optimize your performance with detailed analytics.
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
 
-                    {/* Item 3 */}
-                    <div className="flex flex-col items-center text-center max-w-[160px] xl:max-w-none p-2 xl:p-0">
-                        <MdHandshake className="text-[38px] text-accent mb-4" />
-                        <h3 className="h3">Easy To Use & Flexible Service</h3>
-                        <p className="hidden xl:flex">Simplicity meets flexibility in our user-friendly service.</p>
-                    </div>
-                </motion.div>
+                    {/* Right Visual Section */}
+                    <motion.div
+                        variants={fadeIn("up", 0.8)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: true, amount: 0.6 }}
+                        className="flex-1 flex justify-center"
+                    >
+                        <div className="relative w-[400px] h-[300px] sm:w-[500px] sm:h-[400px] lg:w-[600px] lg:h-[400px] rounded-lg overflow-hidden">
+                            <div className="absolute inset-0 rounded-full"></div>
+                            <img
+                                src="/images/why/img.gif"
+                                alt="Abstract Design"
+                                className="w-full h-full object-contain"
+                            />
+                        </div>
+                    </motion.div>
+                </div>
             </div>
-        </section>
-    )
-}
 
-export default Why
+            {/* Floating Accent Elements */}
+            <div className="absolute top-10 left-10 w-16 h-16 bg-accent/20 rounded-full blur-2xl"></div>
+            <div className="absolute bottom-20 right-20 w-20 h-20 bg-accent/10 rounded-full blur-3xl"></div>
+        </section>
+    );
+};
+
+export default Why;

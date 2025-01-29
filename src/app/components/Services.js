@@ -1,153 +1,119 @@
-"use client"
+"use client";
 
-// Lottie
-import dynamic from 'next/dynamic';
-// import Lottie from 'lottie-react';
-
-// Animation
-import monitorBuildAnimationData from './../../../public/animated_videos/monitorBuild_animation.json'
-import inboxRateAnimationData from './../../../public/animated_videos/inboxRate_animation.json'
-import moreSalesAnimationData from './../../../public/animated_videos/moreSales_animation.json'
-
-// Framer Motion
-import { motion, easeInOut } from 'framer-motion'
-
-// Variants
+// Import required libraries and icons
+import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
+import { FaServer, FaTags, FaRandom, FaEnvelope, FaShieldAlt } from "react-icons/fa";
+import { TbMedicalCross } from "react-icons/tb";
 
+const Features = () => {
+  return (
+    <section className="relative flex items-center" id="services">
+      {/* Floating Circle Icon */}
+      <TbMedicalCross className="absolute top-5 left-5 text-accent opacity-20 w-6 h-6 animate-spin-circle" />
 
-const Cars = () => {
-    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
-    return (
-        <section className="flex items-center" id="services">
-            <div className="container mx-auto">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <motion.h1
+          variants={fadeIn("down", 0.2)}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: true, amount: 0.6 }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-center text-gray-900 mt-10 mb-4"
+        >
+          Features
+        </motion.h1>
 
-                <motion.h1
-                    variants={fadeIn('down', 0.2)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.6 }}
-                    className="h1 text-[20px] xsm:text-[30px] sm:text-[40px] text-center mt-40"
-                >
-                    Features
-                </motion.h1>
+        <motion.p
+          variants={fadeIn("down", 0.4)}
+          initial="hidden"
+          whileInView={"show"}
+          viewport={{ once: true, amount: 0.6 }}
+          className="text-sm sm:text-base md:text-lg text-center text-gray-600 mb-8"
+        >
+          Enhance your email campaigns with powerful tools designed for efficiency and reliability.
+        </motion.p>
 
-                <motion.p
-                    variants={fadeIn('down', 0.4)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.6 }}
-                    className="text-[14px] xsm:text-[16px] sm:text-[20px] text-center"
-                >
-                    Landing in spam means <span className="text-accent">missing customers!</span>
-                </motion.p>
+        {/* Features Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          {/* Feature 1 */}
+          <motion.div
+            variants={fadeIn("up", 0.4)}
+            initial="hidden"
+            whileInView={"show"}
+            viewport={{ once: true, amount: 0.6 }}
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center text-center border border-gray-200"
+          >
+            <FaServer className="text-5xl text-accent mb-4" />
+            <h2 className="text-xl font-bold mb-2">Custom SMTP Support</h2>
+            <p className="text-gray-600">
+              Seamlessly connect to various SMTP servers, including Gmail and iCloud, with custom server and port options.
+            </p>
+          </motion.div>
 
-                <motion.p
-                    variants={fadeIn('down', 0.4)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.6 }}
-                    className="text-[14px] xsm:text-[16px] sm:text-[20px] text-center mb-8"
-                >
-                    JetStream Mailer helps you <span className="text-accent">reach the inbox</span> and <span className="text-accent">unlock growth!</span>
-                </motion.p>
+          {/* Feature 2 */}
+          <motion.div
+            variants={fadeIn("up", 0.4)}
+            initial="hidden"
+            whileInView={"show"}
+            viewport={{ once: true, amount: 0.6 }}
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center text-center border border-gray-200"
+          >
+            <FaTags className="text-5xl text-accent mb-4" />
+            <h2 className="text-xl font-bold mb-2">Dynamic Tags in Emails</h2>
+            <p className="text-gray-600">
+              Personalize emails with custom tags that automatically replace placeholders with dynamic values.
+            </p>
+          </motion.div>
 
-                {/* <Brands />
-                <CarSlider /> */}
+          {/* Feature 3 */}
+          <motion.div
+            variants={fadeIn("up", 0.4)}
+            initial="hidden"
+            whileInView={"show"}
+            viewport={{ once: true, amount: 0.6 }}
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center text-center border border-gray-200"
+          >
+            <FaRandom className="text-5xl text-accent mb-4" />
+            <h2 className="text-xl font-bold mb-2">Randomized Attachment Names</h2>
+            <p className="text-gray-600">
+              Increase engagement by automatically randomizing attachment names for uniqueness.
+            </p>
+          </motion.div>
 
-                <div className="my-8 mb-20">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+          {/* Feature 4 */}
+          <motion.div
+            variants={fadeIn("up", 0.4)}
+            initial="hidden"
+            whileInView={"show"}
+            viewport={{ once: true, amount: 0.6 }}
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center text-center border border-gray-200"
+          >
+            <FaEnvelope className="text-5xl text-accent mb-4" />
+            <h2 className="text-xl font-bold mb-2">Gmail API Integration</h2>
+            <p className="text-gray-600">
+              Streamline email sending with Gmail API for enhanced efficiency and reliability.
+            </p>
+          </motion.div>
 
-                        <motion.div
-                            variants={fadeIn('up', 0.4)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className="bg-white p-4 rounded-lg shadow-md hover:shadow-2xl hover:translate-y-[-8px] transition-all duration-300 flex flex-col justify-center items-center"
-                        >
-                            <Lottie
-                                animationData={monitorBuildAnimationData}
-                                loop={true}
-                                autoplay={true}
-                                className='w-[75px] mb-2 text-center'
-                            />
-                            <h2 className="text-xl font-bold mb-2 text-center">Custom SMTP Support</h2>
-                            <p className="text-gray-600 text-center">You can seamlessly connect to various SMTP servers, including Gmail and iCloud, with the flexibility to use custom servers and ports.</p>
-                        </motion.div>
+          {/* Feature 5 */}
+          <motion.div
+            variants={fadeIn("up", 0.4)}
+            initial="hidden"
+            whileInView={"show"}
+            viewport={{ once: true, amount: 0.6 }}
+            className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col items-center text-center border border-gray-200"
+          >
+            <FaShieldAlt className="text-5xl text-accent mb-4" />
+            <h2 className="text-xl font-bold mb-2">Proxy for IP Rotation</h2>
+            <p className="text-gray-600">
+              Enhance anonymity with rotating or static proxies for dynamic IP address changes during email campaigns.
+            </p>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+};
 
-                        <motion.div
-                            variants={fadeIn('up', 0.4)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className="bg-white p-4 rounded-lg shadow-md hover:shadow-2xl hover:translate-y-[-8px] transition-all duration-300 flex flex-col justify-center items-center"
-                        >
-                            <Lottie
-                                animationData={inboxRateAnimationData}
-                                loop={true}
-                                autoplay={true}
-                                className='w-[75px] mb-2 text-center'
-                            />
-                            <h2 className="text-xl font-bold mb-2 text-center">Dynamic Tags in Emails</h2>
-                            <p className="text-gray-600 text-center">Personalize your emails using custom tags within the email body and HTML files. These tags are automatically replaced with random values, enhancing engagement.</p>
-                        </motion.div>
-
-                        <motion.div
-                            variants={fadeIn('up', 0.4)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className="bg-white p-4 rounded-lg shadow-md hover:shadow-2xl hover:translate-y-[-8px] transition-all duration-300 flex flex-col justify-center items-center"
-                        >
-                            <Lottie
-                                animationData={moreSalesAnimationData}
-                                loop={true}
-                                autoplay={true}
-                                className='w-[75px] mb-2 text-center'
-                            />
-                            <h2 className="text-xl font-bold mb-2 text-center">Randomized Attachment Names</h2>
-                            <p className="text-gray-600 text-center">Add a layer of uniqueness by randomizing attachment names, enhancing recipient curiosity and interaction.</p>
-                        </motion.div>
-
-                        <motion.div
-                            variants={fadeIn('up', 0.4)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className="bg-white p-4 rounded-lg shadow-md hover:shadow-2xl hover:translate-y-[-8px] transition-all duration-300 flex flex-col justify-center items-center"
-                        >
-                            <Lottie
-                                animationData={moreSalesAnimationData}
-                                loop={true}
-                                autoplay={true}
-                                className='w-[75px] mb-2 text-center'
-                            />
-                            <h2 className="text-xl font-bold mb-2 text-center">Gmail API Integration</h2>
-                            <p className="text-gray-600 text-center">Leverage the power of Gmail API to streamline your email sending process, enhancing efficiency and reliability.</p>
-                        </motion.div>
-
-                        <motion.div
-                            variants={fadeIn('up', 0.4)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className="bg-white p-4 rounded-lg shadow-md hover:shadow-2xl hover:translate-y-[-8px] transition-all duration-300 flex flex-col justify-center items-center"
-                        >
-                            <Lottie
-                                animationData={moreSalesAnimationData}
-                                loop={true}
-                                autoplay={true}
-                                className='w-[75px] mb-2 text-center'
-                            />
-                            <h2 className="text-xl font-bold mb-2 text-center">Proxy for IP Rotation</h2>
-                            <p className="text-gray-600 text-center">Ensure anonymity and robustness by employing rotating proxies or static proxies to dynamically change your IP address while sending emails.</p>
-                        </motion.div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-    )
-}
-
-export default Cars
+export default Features;
