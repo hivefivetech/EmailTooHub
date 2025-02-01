@@ -1,26 +1,20 @@
 "use client"
 
-// Lottie
-import dynamic from 'next/dynamic';
-// import Lottie from 'lottie-react';
-
-// Animation
-import securePaymentAnimationData from './../../../public/animated_videos/securePayment_animation.json'
+import Icon from "../../../public/icons/dataprivacy.png"
+import Image from 'next/image';
 
 const SecurePayment = () => {
-    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
     return (
         <div className="w-full h-full flex xl:flex-row justify-center">
-            <div className='flex flex-col sm:flex-row items-center gap-y-4 sm:gap-y-0 gap-x-4 hover:bg-slate-800 hover:text-white transition-all duration-1000 p-5 rounded-[6px]'>
-                <div className='w-[50px]'>
-                    <Lottie
-                        animationData={securePaymentAnimationData}
-                        loop={true}
-                        autoplay={true}
+            <div className='flex flex-col sm:flex-row items-center gap-y-4 sm:gap-y-0 gap-x-4 hover:bg-slate-400 hover:text-white transition-all duration-1000 p-5 rounded-[6px]'>
+                <div className='w-[40px]'>
+                    <Image
+                        src={Icon}
+                        alt='icon'
                     />
                 </div>
                 <div>
-                    <p className='text-[16px] font-bold'>Safe and Secure Payment</p>
+                    <p className='text-[16px] font-bold'>Keep Your Data Safe and Secure</p>
                 </div>
             </div>
         </div>

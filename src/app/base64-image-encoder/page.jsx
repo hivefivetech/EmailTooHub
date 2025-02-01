@@ -9,10 +9,11 @@ import { TbMedicalCross } from "react-icons/tb";
 const Base64Encode = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [base64, setBase64] = useState("");
+    const [mimeType, setMimeType] = useState("");
     const [copiedField, setCopiedField] = useState(null);
     const fileInputRef = useRef(null);
 
-    // Convert Image to Base64
+    // Convert Image to Base64 and Detect MIME Type
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (!file) return;
@@ -22,15 +23,24 @@ const Base64Encode = () => {
         reader.onload = () => {
             setSelectedImage(reader.result);
             setBase64(reader.result.split(",")[1]); // Extracting base64 part
+            setMimeType(file.type); // Dynamically detect MIME type
         };
     };
 
-    // Handle Copy Functionality
+    // Copy to Clipboard
     const copyToClipboard = (text, field) => {
         navigator.clipboard.writeText(text).then(() => {
             setCopiedField(field);
-            setTimeout(() => setCopiedField(null), 2000); // Reset after 2 sec
+            setTimeout(() => setCopiedField(null), 2000);
         });
+    };
+
+    // Clear everything
+    const clearAll = () => {
+        setSelectedImage(null);
+        setBase64("");
+        setMimeType("");
+        setCopiedField(null);
     };
 
     return (
@@ -51,7 +61,7 @@ const Base64Encode = () => {
             </motion.div>
 
             {/* Main Container */}
-            <div className="container mx-auto max-w-3xl p-6 bg-white shadow-lg rounded-xl mt-12 z-10">
+            <div className="container mx-auto max-w-3xl p-6 bg-white shadow-lg rounded-xl mt-24 z-10">
                 <motion.h2
                     variants={fadeIn("down", 0.2)}
                     initial="hidden"
@@ -77,6 +87,16 @@ const Base64Encode = () => {
                     <p className="text-gray-700">Click or drag an image here to upload</p>
                 </div>
 
+                {/* Clear Button */}
+                {selectedImage && (
+                    <button
+                        onClick={clearAll}
+                        className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 transition"
+                    >
+                        Clear
+                    </button>
+                )}
+
                 {/* Preview & Base64 Output */}
                 {selectedImage && (
                     <motion.div
@@ -100,66 +120,52 @@ const Base64Encode = () => {
 
                         {/* Base64 Output */}
                         <div className="mb-4">
-                            <p className="text-lg font-semibold text-gray-700">Base64 String:</p>
-                            <div className="relative p-3 bg-gray-100 rounded-md text-sm text-gray-800 max-h-32 overflow-y-auto break-all">
-                                {base64}
+                            <div className="flex flex-row justify-between items-center relative">
+                                <p className="text-lg font-semibold text-gray-700">Base64 String:</p>
                                 <button
                                     onClick={() => copyToClipboard(base64, "base64")}
-                                    className="absolute top-2 right-2 text-blue-600 hover:text-blue-800"
+                                    className="text-blue-600 hover:text-blue-800"
                                 >
                                     <BiCopy className="w-5 h-5" />
-                                    {copiedField === "base64" && <span className="text-xs absolute -top-6 left-0 bg-black text-white px-2 py-1 rounded-md">Copied!</span>}
                                 </button>
+                                {copiedField === "base64" && (
+                                    <span className="absolute bottom-2 right-2 bg-black text-white px-2 py-1 rounded-md text-xs">
+                                        Copied!
+                                    </span>
+                                )}
+                            </div>
+                            <div className="relative p-3 bg-gray-100 rounded-md text-sm text-gray-800 h-32 overflow-x-auto whitespace-nowrap">
+                                {base64}
                             </div>
                         </div>
 
                         {/* Other Usages */}
-                        <div className="space-y-4">
-                            {/* HTML Usage */}
-                            <div>
-                                <p className="text-lg font-semibold text-gray-700">HTML Usage:</p>
-                                <div className="relative bg-gray-100 p-3 rounded-md text-sm">
-                                    <code>&lt;img src="data:image/jpeg;base64,{base64}" /&gt;</code>
+                        {[
+                            { label: "HTML Usage", value: `<img src="data:${mimeType};base64,${base64}" />`, id: "html" },
+                            { label: "CSS Usage", value: `background-image: url("data:${mimeType};base64,${base64}");`, id: "css" },
+                            { label: "JSON Usage", value: `{ "image": { "mime": "${mimeType}", "data": "${base64}" } }`, id: "json" },
+                            { label: "XML Usage", value: `<?xml version="1.0" encoding="UTF-8"?>\n<root>\n  <image mime="${mimeType}">${base64}</image>\n</root>`, id: "xml" }
+                        ].map(({ label, value, id }) => (
+                            <div key={id} className="mb-4 mt-4">
+                                <div className="flex flex-row justify-between items-center relative">
+                                    <p className="text-lg font-semibold text-gray-700">{label}:</p>
                                     <button
-                                        onClick={() => copyToClipboard(`<img src="data:image/jpeg;base64,${base64}" />`, "html")}
-                                        className="absolute top-2 right-2 text-blue-600 hover:text-blue-800"
+                                        onClick={() => copyToClipboard(value, id)}
+                                        className="text-blue-600 hover:text-blue-800"
                                     >
                                         <BiCopy className="w-5 h-5" />
-                                        {copiedField === "html" && <span className="text-xs absolute -top-6 left-0 bg-black text-white px-2 py-1 rounded-md">Copied!</span>}
                                     </button>
+                                    {copiedField === id && (
+                                        <span className="absolute bottom-2 right-2 bg-black text-white px-2 py-1 rounded-md text-xs">
+                                            Copied!
+                                        </span>
+                                    )}
+                                </div>
+                                <div className="p-3 bg-gray-100 rounded-md text-sm text-gray-800 h-32 overflow-x-auto whitespace-nowrap">
+                                    <pre>{value}</pre>
                                 </div>
                             </div>
-
-                            {/* CSS Usage */}
-                            <div>
-                                <p className="text-lg font-semibold text-gray-700">CSS Usage:</p>
-                                <div className="relative bg-gray-100 p-3 rounded-md text-sm">
-                                    <code>background-image: url("data:image/jpeg;base64,{base64}");</code>
-                                    <button
-                                        onClick={() => copyToClipboard(`background-image: url("data:image/jpeg;base64,${base64}");`, "css")}
-                                        className="absolute top-2 right-2 text-blue-600 hover:text-blue-800"
-                                    >
-                                        <BiCopy className="w-5 h-5" />
-                                        {copiedField === "css" && <span className="text-xs absolute -top-6 left-0 bg-black text-white px-2 py-1 rounded-md">Copied!</span>}
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* JSON Usage */}
-                            <div>
-                                <p className="text-lg font-semibold text-gray-700">JSON Usage:</p>
-                                <div className="relative bg-gray-100 p-3 rounded-md text-sm">
-                                    <pre>{`{ "image": { "mime": "image/jpeg", "data": "${base64}" } }`}</pre>
-                                    <button
-                                        onClick={() => copyToClipboard(`{ "image": { "mime": "image/jpeg", "data": "${base64}" } }`, "json")}
-                                        className="absolute top-2 right-2 text-blue-600 hover:text-blue-800"
-                                    >
-                                        <BiCopy className="w-5 h-5" />
-                                        {copiedField === "json" && <span className="text-xs absolute -top-6 left-0 bg-black text-white px-2 py-1 rounded-md">Copied!</span>}
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </motion.div>
                 )}
             </div>

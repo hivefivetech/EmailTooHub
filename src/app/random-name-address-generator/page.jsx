@@ -1,187 +1,144 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react';
-
-// Framer Motion
-import { motion } from 'framer-motion'
-
-// Variants
+import { useState } from "react";
+import { faker } from "@faker-js/faker";
+import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
-
-import countryList from 'country-list';
+import { BiCopy } from "react-icons/bi";
+import { TbMedicalCross } from "react-icons/tb";
 
 const RandomNameAddressGenerator = () => {
+    const [numOfRecords, setNumOfRecords] = useState(1);
+    const [generatedData, setGeneratedData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [copied, setCopied] = useState(false);
 
-    const [selectedValueNumberOfNames, setSelectedValueNumberOfNames] = useState("10");
-    const [selectedValueGender, setSelectedValueGender] = useState("Male & Female");
-    const [selectedNameStyle, setSelectedNameStyle] = useState("average");
-    const [generatedNames, setGeneratedNames] = useState([]);
-    const [generatedAddress, setGeneratedAddress] = useState("");
-
-    const [selectedValueCountry, setSelectedValueCountry] = useState("United States");
-    const [countryOptions, setCountryOptions] = useState([]);
-
-    useEffect(() => {
-        const names = countryList.getNames();
-        setCountryOptions(names);
-    }, []);
-
-    const CountryGenerator = (event) => {
-        setSelectedValueCountry(event.target.value);
+    const generateData = () => {
+        setIsLoading(true);
+        setTimeout(() => {
+            const newData = Array.from({ length: numOfRecords }, () => ({
+                name: faker.person.fullName(),
+                address: `${faker.location.streetAddress()}, ${faker.location.city()}, ${faker.location.zipCode()}, ${faker.location.country()}`
+            }));
+            setGeneratedData(newData);
+            setIsLoading(false);
+        }, 1000);
     };
 
-    const generateAddress = () => {
-        const country = selectedValueCountry;
-        const randomStreetNumber = Math.floor(Math.random() * 1000) + 1;
-        const randomCity = "City";
-        const address = `${randomStreetNumber} Street, ${randomCity}, ${country}`;
-        setGeneratedAddress(address);
-    };
-
-    const NumberOfNames = (event) => {
-        setSelectedValueNumberOfNames(event.target.value);
-    };
-
-    const Gender = (event) => {
-        setSelectedValueGender(event.target.value);
-    };
-
-    const handleNameStyleChange = (event) => {
-        setSelectedNameStyle(event.target.value);
-    };
-
-    const generateNames = () => {
-        const numberOfNames = parseInt(selectedValueNumberOfNames);
-        let names = [];
-
-        for (let i = 0; i < numberOfNames; i++) {
-            let name = generateRandomName(selectedValueGender, selectedNameStyle);
-            names.push(name);
-        }
-
-        setGeneratedNames(names);
-    };
-
-    const generateRandomName = (gender, nameStyle) => {
-        const commonNames = ["John", "David", "Michael", "James", "William"];
-        const averageNames = ["Emily", "Jessica", "Matthew", "Daniel", "Jennifer"];
-        const rareNames = ["Aurora", "Clementine", "Zephyr", "Octavia", "Persephone"];
-
-        let names;
-        switch (nameStyle) {
-            case "common":
-                names = commonNames;
-                break;
-            case "average":
-                names = averageNames;
-                break;
-            case "rare":
-                names = rareNames;
-                break;
-            default:
-                names = commonNames;
-        }
-
-        if (gender === "Male") {
-            names = names.filter(name => !isFemaleName(name));
-        } else if (gender === "Female") {
-            names = names.filter(name => isFemaleName(name));
-        }
-
-        return names[Math.floor(Math.random() * names.length)];
-    };
-
-    const isFemaleName = (name) => {
-        return name.endsWith('a');
+    const copyToClipboard = () => {
+        const text = generatedData.map(item => `${item.name} - ${item.address}`).join("\n");
+        navigator.clipboard.writeText(text).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        });
     };
 
     return (
-        <section className="section h-[1500px] xsm:h-[1300px] md:h-[1000px] flex items-center bg-[#fff]" id="randomnameaddressgenerator">
-            <div className="container mx-auto max-w-[1200px]">
-                <div className="flex flex-col items-center justify-center">
-                    <motion.h2
-                        variants={fadeIn('down', 0.2)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.6 }}
-                        className="h2 text-center"
+        <section className="flex items-center min-h-screen bg-gray-100 py-12 relative">
+
+            {/* Background Accents */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#f9fafb]/50 to-[#e5e7eb]/50 z-0"></div>
+            <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
+
+            {/* Floating Particle Effect */}
+            <motion.div
+                className="absolute top-50 right-16 w-12 h-12 bg-accent/20 rounded-full blur-md"
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            ></motion.div>
+
+            {/* Rotating Icon on Top Left */}
+            <motion.div
+                className="absolute top-28 left-24 text-accent opacity-30 w-6 h-6"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            >
+                <TbMedicalCross className="w-full h-full" />
+            </motion.div>
+
+            <div className="container mx-auto max-w-3xl p-6 bg-white shadow-lg rounded-xl mt-24 z-10">
+                <motion.h2
+                    variants={fadeIn("down", 0.2)}
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true }}
+                    className="text-3xl font-bold text-center text-gray-800 mb-6"
+                >
+                    Random Name & Address Generator
+                </motion.h2>
+
+                {/* Selection */}
+                <div className="flex justify-center items-center gap-4 mb-6">
+                    <label className="text-lg text-gray-700">Generate:</label>
+                    <select
+                        value={numOfRecords}
+                        onChange={(e) => setNumOfRecords(Number(e.target.value))}
+                        className="p-2 border rounded-md shadow-sm"
                     >
-                        Random Name Generator
-                    </motion.h2>
+                        <option value="1">1</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
 
-                    <div className='flex flex-col md:flex-row items-center justify-around w-[100%] gap-8 md:gap-0'>
-                        <div className='flex flex-row items-center gap-2'>
-                            <p>Number of Names:</p>
-                            <select className='p-2 pr-10' value={selectedValueNumberOfNames} onChange={NumberOfNames}>
-                                <option>10</option>
-                                <option>25</option>
-                                <option>50</option>
-                                <option>100</option>
-                            </select>
-                        </div>
+                {/* Generate Button */}
+                <div className="flex justify-center">
+                    <button
+                        onClick={generateData}
+                        disabled={isLoading}
+                        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition disabled:bg-gray-400"
+                    >
+                        {isLoading ? "Generating..." : "Generate"}
+                    </button>
+                </div>
 
-                        <div className='flex flex-row items-center gap-2'>
-                            <p>Gender:</p>
-                            <select className='p-2 pr-10' value={selectedValueGender} onChange={Gender}>
-                                <option>Male & Female</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </select>
-                        </div>
+                {/* Display Generated Data */}
+                {generatedData.length > 0 && (
+                    <motion.div
+                        variants={fadeIn("up", 0.3)}
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true }}
+                        className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md"
+                    >
+                        <div className="flex justify-between items-center mb-3">
+                            <h3 className="text-lg font-semibold text-gray-700">Generated Results</h3>
+                            <div className="flex gap-4">
+                                {/* Copy Button */}
+                                <button
+                                    onClick={copyToClipboard}
+                                    className="flex items-center text-blue-600 hover:text-blue-800 relative"
+                                >
+                                    <BiCopy className="w-5 h-5 mr-1" />
+                                    {copied && (
+                                        <span className="absolute -top-6 left-6 text-xs bg-black text-white px-2 py-1 rounded-md">
+                                            Copied!
+                                        </span>
+                                    )}
+                                </button>
 
-                        <div>
-                            <p>Name Style:</p>
-                            <div className="flex items-center">
-                                <input className='mr-2' type="radio" id="common" name="nameStyle" value="common" checked={selectedNameStyle === "common"} onChange={handleNameStyleChange} />
-                                <label htmlFor="common" className="mr-2">Common</label>
-
-                                <input className='mr-2' type="radio" id="average" name="nameStyle" value="average" checked={selectedNameStyle === "average"} onChange={handleNameStyleChange} />
-                                <label htmlFor="average" className="mr-2">Average</label>
-
-                                <input className='mr-2' type="radio" id="rare" name="nameStyle" value="rare" checked={selectedNameStyle === "rare"} onChange={handleNameStyleChange} />
-                                <label htmlFor="rare">Rare</label>
+                                {/* Clear Button */}
+                                <button
+                                    onClick={() => setGeneratedData([])}
+                                    className="px-3 py-1 bg-red-600 text-white text-sm font-semibold rounded-md shadow hover:bg-red-700 transition"
+                                >
+                                    Clear
+                                </button>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="flex justify-center items-center mt-5">
-                        <button onClick={generateNames} className="px-4 py-2 bg-black hover:bg-accent duration-300 text-white rounded-md">Generate Names</button>
-                    </div>
-
-                    <div className='w-[100%]'>
-                        <textarea placeholder='Names Output' value={generatedNames.join(", ")} readOnly className='mt-8 mb-8 bg-white flex w-[100%] h-[75px] p-3 border border-[#cdcdcd] rounded-md resize-none' />
-                    </div>
-                    <motion.h2
-                        variants={fadeIn('down', 0.2)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.6 }}
-                        className="h2 text-center"
-                    >
-                        Random Address Generator
-                    </motion.h2>
-
-                    <div className='flex flex-row items-center gap-2'>
-                        <p>Country:</p>
-                        <select className='p-2 pr-10' value={selectedValueCountry} onChange={CountryGenerator}>
-                            {countryOptions.map(country => (
-                                <option key={country}>{country}</option>
+                        <div className="overflow-y-auto max-h-64 p-3 border border-gray-300 rounded-md text-gray-700 text-sm">
+                            {generatedData.map((item, index) => (
+                                <p key={index} className="mb-2">
+                                    <strong>{item.name}</strong> - {item.address}
+                                </p>
                             ))}
-                        </select>
-                    </div>
-
-                    <div className="flex justify-center items-center mt-5">
-                        <button onClick={generateAddress} className="px-4 py-2 bg-black hover:bg-accent duration-300 text-white rounded-md">Generate Address</button>
-                    </div>
-
-                    <div className='w-[100%]'>
-                        <textarea placeholder='Address Output' value={generatedAddress} readOnly className='mt-8 mb-8 bg-white flex w-[100%] h-[75px] p-3 border border-[#cdcdcd] rounded-md resize-none' />
-                    </div>
-
-                </div>
+                        </div>
+                    </motion.div>
+                )}
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default RandomNameAddressGenerator
+export default RandomNameAddressGenerator;

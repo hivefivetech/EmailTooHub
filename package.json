@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.4.0",
     "@headlessui/react": "^1.7.18",
     "@tinymce/tinymce-react": "^5.1.1",
+    "chart.js": "^4.4.7",
     "country-list": "^2.3.0",
     "date-fns": "^3.3.1",
     "file-saver": "^2.0.5",
@@ -19,6 +21,7 @@
     "lottie-react": "^2.4.0",
     "next": "14.1.0",
     "react": "^18",
+    "react-chartjs-2": "^5.3.0",
     "react-countup": "^6.5.0",
     "react-date-range": "^2.0.0-alpha.4",
     "react-dom": "^18",

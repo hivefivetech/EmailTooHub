@@ -9,6 +9,7 @@ import { useInView } from "react-intersection-observer";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
 import dynamic from "next/dynamic";
+import { TbMedicalCross } from "react-icons/tb";
 
 // Lottie for animations
 const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
@@ -37,10 +38,12 @@ const About = () => {
 
   return (
     <section
-      className="section flex flex-wrap items-center justify-center bg-gradient-to-b from-[#f9fafb] to-[#e5e7eb] py-12 sm:py-16 md:py-20 min-h-screen h-auto"
+      className="section flex flex-wrap items-center justify-center bg-gradient-to-b from-[#f9fafb] to-[#e5e7eb] py-12 sm:py-16 md:py-20 min-h-screen h-auto relative"
       id="about"
       ref={ref}
     >
+      {/* Floating Circle Icon */}
+      <TbMedicalCross className="absolute top-5 left-32 text-accent opacity-20 w-6 h-6 animate-spin-circle" />
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-10 sm:mb-14">
@@ -110,11 +113,10 @@ const About = () => {
             {tabs.map((tab, index) => (
               <motion.button
                 key={index}
-                className={`flex flex-col items-center justify-center bg-white shadow-lg rounded-lg p-6 transition-transform duration-300 ${
-                  activeTab === index
+                className={`flex flex-col items-center justify-center bg-white shadow-lg rounded-lg p-6 transition-transform duration-300 ${activeTab === index
                     ? "border-2 border-accent scale-105"
                     : "hover:scale-105"
-                }`}
+                  }`}
                 onClick={() => setActiveTab(index)}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}

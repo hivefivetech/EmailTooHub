@@ -105,7 +105,7 @@ const Header = () => {
                 <div className="flex justify-between items-center px-4">
                     {/* Logo */}
                     <Link href="/" className="cursor-pointer">
-                        <Image src={'/icons/logo_175x83.png'} width={75} height={50} alt='' />
+                        <Image src={'/icons/mainLogo.png'} width={90} height={65} alt='' />
                     </Link>
 
                     {/* Nav Open Menu */}
@@ -124,34 +124,69 @@ const Header = () => {
                         Home
                     </Link>
 
+                    <a
+                        className="cursor-pointer hover:font-bold duration-300"
+                        href="https://html-editor.emailtoolhub.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        activeclass="active"
+                    >
+                        Inbox Checker
+                    </a>
+
+                    <Link
+                        className="cursor-pointer hover:font-bold duration-300"
+                        href="/email-validator"
+                        activeclass="active"
+                    >
+                        Email Validator
+                    </Link>
+
+                    <Link
+                        className="cursor-pointer hover:font-bold duration-300"
+                        href="/base64-image-encoder"
+                        activeclass="active"
+                    >
+                        Base64 Image Encoder
+                    </Link>
+
+                    <Link
+                        className="cursor-pointer hover:font-bold duration-300"
+                        href="/blog"
+                        activeclass="active"
+                    >
+                        Blog
+                    </Link>
+
                     {/* Dropdown */}
-                    <div ref={dropdownRef}>
+                    {/* <div ref={dropdownRef}>
                         <div
                             className="cursor-pointer hover:font-bold duration-300"
                             onClick={toggleDropdown}
                         >
                             Services
                         </div>
-                        <div className={`absolute left-1/2 xl:left-[57%] flex flex-col w-44 bg-white border border-gray-300 rounded shadow-lg ${dropdownOpen ? '' : 'hidden'}`}>
+                        <div className={`absolute left-1/2 xl:left-[70%] flex flex-col w-44 bg-white border border-gray-300 rounded shadow-lg ${dropdownOpen ? '' : 'hidden'}`}>
                             <Link href="email-extractor" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Extractor</Link>
                             <a href="https://html-editor.emailtoolhub.com/" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Html Editor</a>
                             <a href="https://inbox-checker.emailtoolhub.com/" target="_blank" rel="noopener noreferrer" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Inbox Checker</a>
-                            <Link href="base64" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Base64</Link>
+                            <Link href="base64-image-encoder" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Base64</Link>
                             <Link href="email-validator" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Validator</Link>
+                            <Link href="email-splitter" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Email Splitter</Link>
                             <Link href="random-name-address-generator" className="block cursor-pointer hover:font-bold duration-300 px-4 py-2 text-gray-800 hover:bg-gray-200" onClick={() => setDropdownOpen(false)}>Random Name & Address Generator</Link>
                         </div>
-                    </div>
+                    </div> */}
 
-                    <ScrollLink
+                    {/* <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
                         to="services"
                         activeclass="active"
 
                     >
                         Features
-                    </ScrollLink>
+                    </ScrollLink> */}
 
-                    <ScrollLink
+                    {/* <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
                         to="about"
                         activeclass="active"
@@ -167,34 +202,34 @@ const Header = () => {
 
                     >
                         Why Us
-                    </ScrollLink>
+                    </ScrollLink> */}
 
-                    <ScrollLink
+                    {/* <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
                         to="testimonial"
                         activeclass="active"
 
                     >
                         Testimonials
-                    </ScrollLink>
+                    </ScrollLink> */}
 
-                    <ScrollLink
+                    {/* <ScrollLink
                         className="cursor-pointer hover:font-bold duration-300"
                         to="contact"
                         activeclass="active"
 
                     >
                         Contact
-                    </ScrollLink>
+                    </ScrollLink> */}
 
-                    <Link
+                    {/* <Link
                         className="hidden btn btn-primary btn-sm max-w-[164px] mx-auto"
                         href="/"
                         activeclass="active"
 
                     >
                         See All Cars
-                    </Link>
+                    </Link> */}
 
                     <SearchMobile />
                 </nav>

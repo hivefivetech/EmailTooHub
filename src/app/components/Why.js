@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
 
 // Icons
-import { MdEmail, MdOutlineSecurity, MdTrendingUp } from "react-icons/md";
+import { MdAttachMoney, MdCheckCircle, MdEmail, MdOutlineSecurity, MdSecurity, MdTimer, MdTrendingUp, MdUpdate } from "react-icons/md";
 
 const Why = () => {
     return (
@@ -27,16 +27,16 @@ const Why = () => {
                     Why Choose Email Tool Hub?
                 </motion.h2>
 
-                <motion.p
+                {/* <motion.p
                     variants={fadeIn("up", 0.4)}
                     initial="hidden"
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.6 }}
                     className="max-w-[700px] mx-auto text-center text-gray-600 mb-10"
                 >
-                    Discover innovative features and unmatched reliability that make us
-                    the preferred choice for email marketers worldwide.
-                </motion.p>
+                    <b>Discover innovative features</b> and <i>unmatched reliability</i> that make us the preferred choice for email marketers worldwide.
+                    <b> Access all email marketing tools for free,</b> <i>save time and money,</i> and rest assured knowing your data is <b>fully protected.</b>
+                </motion.p> */}
 
                 {/* Unique Features Section */}
                 <div className="relative flex flex-col-reverse xl:flex-row items-center justify-between gap-8">
@@ -50,39 +50,65 @@ const Why = () => {
                     >
                         {/* Feature 1 */}
                         <div className="flex items-center gap-4">
-                            <MdEmail className="text-5xl text-accent" />
+                            <MdAttachMoney className="text-5xl text-accent" />
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900">
-                                    Advanced Email Management
+                                    Paid Tools for Free
                                 </h3>
                                 <p className="text-gray-600">
-                                    Streamline your email campaigns with precision and ease.
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* Feature 2 */}
-                        <div className="flex items-center gap-4">
-                            <MdOutlineSecurity className="text-5xl text-accent" />
-                            <div>
-                                <h3 className="text-lg font-semibold text-gray-900">
-                                    Robust Security
-                                </h3>
-                                <p className="text-gray-600">
-                                    Enjoy secure email operations with industry-standard protocols.
+                                    Access premium email marketing tools at no cost to streamline your campaigns.
                                 </p>
                             </div>
                         </div>
 
                         {/* Feature 3 */}
                         <div className="flex items-center gap-4">
+                            <MdTimer className="text-5xl text-accent" />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Save Time and Effort
+                                </h3>
+                                <p className="text-gray-600">
+                                    Automate and simplify your email tasks, freeing up time for other important activities.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Feature 4 */}
+                        <div className="flex items-center gap-4">
+                            <MdEmail className="text-5xl text-accent" />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Free Email Deliverability Checker
+                                </h3>
+                                <p className="text-gray-600">
+                                    Test your email deliverability for free to ensure your emails land in inboxes, not spam.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Feature 6 */}
+                        <div className="flex items-center gap-4">
                             <MdTrendingUp className="text-5xl text-accent" />
                             <div>
                                 <h3 className="text-lg font-semibold text-gray-900">
-                                    Data-Driven Insights
+                                    Most Advanced Online Email Marketing Tools
                                 </h3>
                                 <p className="text-gray-600">
-                                    Optimize your performance with detailed analytics.
+                                    Leverage cutting-edge tools to optimize every aspect of your email marketing campaigns.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Feature 7 */}
+                        <div className="flex items-center gap-4">
+                            <MdUpdate className="text-5xl text-accent" />
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                    Daily Updated Email Marketing Tools
+                                </h3>
+                                <p className="text-gray-600">
+                                    Stay ahead with the latest tools and features, updated daily to meet your email marketing needs.
                                 </p>
                             </div>
                         </div>

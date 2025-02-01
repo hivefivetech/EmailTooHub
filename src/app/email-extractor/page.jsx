@@ -1,324 +1,279 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-
-// Framer Motion
-import { motion } from 'framer-motion'
-
-// Variants
-import { fadeIn } from '../../../variants';
-
-// Lottie
-import dynamic from 'next/dynamic';
-// import Lottie from 'lottie-react';
-
-// Animation
-import buttonAnimationData from './../../../public/animated_videos/emailExtractor_animation.json'
-
-import { saveAs } from 'file-saver';
-
-// Sweet Alert
-import Swal from 'sweetalert2';
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../../variants";
+import { saveAs } from "file-saver";
+import Swal from "sweetalert2";
+import { FiUploadCloud, FiDownloadCloud, FiTrash2 } from "react-icons/fi";
+import { TbMedicalCross } from "react-icons/tb";
 
 const EmailExtractor = () => {
-    const Lottie = dynamic(() => import('lottie-react'), { ssr: false });
-    const [animationPlayed, setAnimationPlayed] = useState(false);
-    const [textEmailAreaValue, setTextEmailAreaValue] = useState('');
-    const [textResultValue, setTextResultValue] = useState('')
-    const [copyFormat, setCopyFormat] = useState('comma');
-    const [extractedEmails, setExtractedEmails] = useState();
+    const [textEmailAreaValue, setTextEmailAreaValue] = useState("");
+    const [extractedEmails, setExtractedEmails] = useState({});
+    const [progress, setProgress] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const fileInputRef = useRef(null);
 
-    const handleButtonClick = () => {
-        setAnimationPlayed(true);
+    // Extract & Categorize Emails
+    const extractEmails = (text) => {
+        const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+        let emails = text.match(emailRegex) || [];
+        emails = [...new Set(emails)]; // Remove duplicates
 
-        var outputText = extractEmails(textEmailAreaValue);
+        const categorizedEmails = {};
+        emails.forEach((email) => {
+            const domain = email.split("@")[1];
+            if (!categorizedEmails[domain]) {
+                categorizedEmails[domain] = [];
+            }
+            categorizedEmails[domain].push(email);
+        });
 
-        outputText = [...new Set(outputText)];
-
-        var categorizedOutputText = categorizeEmails(outputText);
-
-        setExtractedEmails(categorizedOutputText);
-
-        console.log(outputText, typeof (outputText))
-        console.log(outputText.join('\n'))
-
-        setTextResultValue(outputText.join('\n'))
-
+        setExtractedEmails(categorizedEmails);
     };
 
-    const handleDownloadButtonClick = () => {
-        if (extractedEmails && Object.keys(extractedEmails).length > 0) {
-            const csvContent = convertToCSV(extractedEmails);
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-            saveAs(blob, 'extracted_emails.csv');
-        } else {
+    // Handle Extract Button Click
+    const handleExtractEmails = () => {
+        if (!textEmailAreaValue.trim()) {
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'No emails extracted!',
+                icon: "error",
+                title: "Oops...",
+                text: "Please enter or upload text before extracting!",
             });
+            return;
         }
+        setLoading(true);
+        setProgress(0);
+        setTimeout(() => {
+            setProgress(100);
+            extractEmails(textEmailAreaValue);
+            setLoading(false);
+        }, 1000);
     };
 
-    const handleClearButtonClick = () => {
-        setTextEmailAreaValue('');
-        setTextResultValue('');
-    };
+    // Handle File Upload (TXT)
+    const handleFileUpload = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
 
-    const handleCopyEmails = () => {
-        if (!textResultValue.trim()) {
+        if (file.size > 2 * 1024 * 1024) {
             Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Result box is empty!',
+                icon: "error",
+                title: "File too large!",
+                text: "File size should be less than 2MB.",
             });
             return;
         }
 
-        let formattedEmails = '';
-
-        switch (copyFormat) {
-            case 'comma':
-                formattedEmails = textResultValue.replace(/\n/g, ',');
-                break;
-            case 'linebreak':
-                formattedEmails = textResultValue;
-                break;
-            case 'semicolon':
-                formattedEmails = textResultValue.replace(/\n/g, ';');
-                break;
-            case 'pipe':
-                formattedEmails = textResultValue.replace(/\n/g, '|');
-                break;
-            case 'json':
-                formattedEmails = JSON.stringify(textResultValue.split('\n'), null, 2);
-                break;
-            case 'array':
-                formattedEmails = `[${textResultValue.split('\n').map(email => `"${email}"`).join(', ')}]`;
-                break;
-        }
-
-        navigator.clipboard.writeText(formattedEmails).then(() => {
-            Swal.fire({
-                icon: 'success',
-                title: 'Copied!',
-                text: 'Emails copied to clipboard.',
-                timer: 1500,
-                showConfirmButton: false
-            });
-        });
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setTextEmailAreaValue(e.target.result);
+        };
+        reader.readAsText(file);
     };
 
-    function extractEmails(text) {
-        const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
+    // Generate CSV with Each Domain as a Column
+    const downloadCSV = () => {
+        const domains = Object.keys(extractedEmails);
+        if (domains.length === 0) return;
 
-        const emails = text.match(emailRegex);
+        let maxRows = Math.max(...Object.values(extractedEmails).map(arr => arr.length));
+        let csvContent = domains.join(",") + "\n";
 
-        return emails || [];
-    }
-
-    function categorizeEmails(emails) {
-        const emailCategories = {};
-
-        emails.forEach(email => {
-            const domain = email.split('@')[1];
-
-            const serviceProvider = domain.split('.')[0];
-
-            if (emailCategories[serviceProvider]) {
-                emailCategories[serviceProvider].push(email);
-            } else {
-                emailCategories[serviceProvider] = [email];
-            }
-        });
-
-        return emailCategories;
-    }
-
-    function convertToCSV(obj) {
-        const headers = Object.keys(obj).join(',') + '\n';
-        const maxLength = Math.max(...Object.values(obj).map(arr => arr.length));
-        let csv = '';
-        for (let i = 0; i < maxLength; i++) {
-            for (const key in obj) {
-                if (obj.hasOwnProperty(key)) {
-                    csv += obj[key][i] || '';
-                    csv += ',';
-                }
-            }
-            csv = csv.slice(0, -1) + '\n';
+        for (let i = 0; i < maxRows; i++) {
+            csvContent += domains.map(domain => extractedEmails[domain][i] || "").join(",") + "\n";
         }
-        return headers + csv;
-    }
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8" });
+        saveAs(blob, "extracted_emails.csv");
+    };
+
+    // Generate TXT with One Email per Line
+    const downloadTXT = () => {
+        let emails = Object.values(extractedEmails).flat();
+        const blob = new Blob([emails.join("\n")], { type: "text/plain;charset=utf-8" });
+        saveAs(blob, "extracted_emails.txt");
+    };
+
+    // Clear Input & Results
+    const handleClear = () => {
+        setTextEmailAreaValue("");
+        setExtractedEmails({});
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = ""; // Clear file input
+        }
+    };
 
     return (
-        <section className="section h-[1500px] xsm:h-[1300px] md:h-[1000px] flex items-center bg-[#fff]" id="emailextractor">
-            <div className="container mx-auto max-w-[1200px]">
+        <section className="flex items-center bg-gradient-to-br from-[#f9fafb] to-[#e5e7eb] py-16 min-h-screen relative">
 
-                <div className="flex flex-col items-center justify-center">
+            {/* Background Accents */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#f9fafb]/50 to-[#e5e7eb]/50 z-0"></div>
+            {/* <div className="absolute -top-24 left-1/3 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div> */}
+            <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
 
-                    <motion.h2
-                        variants={fadeIn('down', 0.2)}
+            {/* Floating Particle Effect */}
+            <motion.div
+                className="absolute top-50 right-16 w-12 h-12 bg-accent/20 rounded-full blur-md"
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            ></motion.div>
+
+            {/* Rotating Icon on Top Left */}
+            <motion.div
+                className="absolute top-28 left-24 text-accent opacity-30 w-6 h-6"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+            >
+                <TbMedicalCross className="w-full h-full" />
+            </motion.div>
+
+            <div className="container mx-auto px-6 lg:px-12 text-center max-w-4xl mt-24 z-10">
+                <motion.h2
+                    variants={fadeIn("down", 0.2)}
+                    initial="hidden"
+                    whileInView={"show"}
+                    viewport={{ once: true, amount: 0.6 }}
+                    className="text-4xl font-bold text-gray-800 mb-6"
+                >
+                    Email Extractor
+                </motion.h2>
+
+                <motion.p
+                    variants={fadeIn("down", 0.4)}
+                    initial="hidden"
+                    whileInView={"show"}
+                    viewport={{ once: true, amount: 0.6 }}
+                    className="text-lg text-gray-600 mb-8"
+                >
+                    Extract email addresses from any text file or content instantly.
+                </motion.p>
+
+                {/* Text Input Area */}
+                <motion.textarea
+                    variants={fadeIn("right", 0.6)}
+                    initial="hidden"
+                    whileInView={"show"}
+                    viewport={{ once: true, amount: 0.6 }}
+                    className="w-full h-40 p-3 border border-gray-300 rounded-md shadow-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Paste your text here..."
+                    value={textEmailAreaValue}
+                    onChange={(e) => setTextEmailAreaValue(e.target.value)}
+                />
+
+                {/* File Upload */}
+                <div className="mt-4">
+                    <label className="flex items-center justify-center gap-2 p-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-100 transition duration-300">
+                        <FiUploadCloud className="text-gray-600" />
+                        <span className="text-gray-600">Upload TXT File</span>
+                        <input
+                            type="file"
+                            accept=".txt"
+                            className="hidden"
+                            onChange={handleFileUpload}
+                            ref={fileInputRef}
+                        />
+                    </label>
+                </div>
+
+                {/* Buttons */}
+                <motion.div
+                    variants={fadeIn("down", 0.4)}
+                    initial="hidden"
+                    whileInView={"show"}
+                    viewport={{ once: true, amount: 0.6 }}
+                    className="mt-6 flex justify-center gap-4"
+                >
+                    <button
+                        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-300 disabled:bg-gray-500 flex items-center gap-2"
+                        onClick={handleExtractEmails}
+                        disabled={loading}
+                    >
+                        {loading ? "Extracting..." : "Extract Emails"}
+                    </button>
+
+                    <button
+                        className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-300 flex items-center gap-2"
+                        onClick={handleClear}
+                    >
+                        <FiTrash2 />
+                        Clear
+                    </button>
+                </motion.div>
+
+                {/* Progress Bar */}
+                {loading && (
+                    <div className="w-full bg-gray-300 rounded-full h-2.5 mt-4">
+                        <div
+                            className="bg-blue-600 h-2.5 rounded-full transition-all"
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+                )}
+
+                {/* Extracted Results */}
+                {Object.keys(extractedEmails).length > 0 && (
+                    <motion.div
+                        variants={fadeIn("up", 0.4)}
                         initial="hidden"
                         whileInView={"show"}
                         viewport={{ once: true, amount: 0.6 }}
-                        className="h2 text-center"
+                        className="mt-8 bg-white/80 backdrop-blur-lg p-6 rounded-md shadow-lg"
                     >
-                        Email Extractor
-                    </motion.h2>
+                        <h4 className="text-lg font-bold mb-4 text-gray-800">
+                            Extracted Emails:
+                        </h4>
 
-                    <motion.p
-                        variants={fadeIn('down', 0.4)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.6 }}
-                        className="text-description text-center mb-8"
-                    >
-                        A free online tool to extract email addresses from the text content.
-                    </motion.p>
-
-                </div>
-
-                <div className='flex flex-col sm:flex-row justify-between gap-5'>
-
-                    <div className='flex flex-col items-center w-[100%]'>
-
-                        <div className='w-[100%]'>
-                            <div>
-                                <motion.textarea
-                                    variants={fadeIn('right', 0.6)}
-                                    initial="hidden"
-                                    whileInView={"show"}
-                                    viewport={{ once: true, amount: 0.6 }}
-                                    className='bg-[#ffffff] text-[#666666] p-3 rounded-[10px] border-2 border-solid border-slate-200 outline-none w-[100%] h-[300px] resize-none'
-                                    placeholder='Enter the text/content (max: 100k characters)'
-                                    value={textEmailAreaValue}
-                                    onChange={(e) => setTextEmailAreaValue(e.target.value)}
-                                >
-
-                                </motion.textarea>
-                            </div>
-
-                            <div className='flex flex-row items-center justify-center gap-4 mt-4 mb-6'>
-                                <motion.button
-                                    variants={fadeIn('up', 0.6)}
-                                    initial="hidden"
-                                    whileInView={"show"}
-                                    viewport={{ once: true, amount: 0.6 }}
-                                    onClick={handleButtonClick}
-                                    className="flex flex-row items-center py-4 px-2 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white"
-                                >
-                                    <p>Extract Email</p>
-                                </motion.button>
-
-                                <motion.button
-                                    variants={fadeIn('up', 0.6)}
-                                    initial="hidden"
-                                    whileInView={"show"}
-                                    viewport={{ once: true, amount: 0.6 }}
-                                    onClick={handleClearButtonClick}
-                                    className="flex flex-row items-center p-[1rem] rounded-[10px] bg-gray-400 hover:bg-gray-600 hover:scale-105 transition-all duration-300 text-white"
-                                >
-                                    Clear
-                                </motion.button>
-                            </div>
+                        {/* Display Domains in a Row, Emails Below */}
+                        <div className="overflow-x-auto border border-gray-300 rounded-md">
+                            <table className="w-full text-left text-sm text-gray-600">
+                                <thead className="bg-gray-200">
+                                    <tr>
+                                        {Object.keys(extractedEmails).map((domain, index) => (
+                                            <th key={index} className="p-2 text-blue-600 font-semibold">
+                                                @{domain}
+                                            </th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {Array.from({ length: Math.max(...Object.values(extractedEmails).map(arr => arr.length)) }).map((_, rowIndex) => (
+                                        <tr key={rowIndex} className="border-t">
+                                            {Object.keys(extractedEmails).map((domain, colIndex) => (
+                                                <td key={colIndex} className="p-2">
+                                                    {extractedEmails[domain][rowIndex] || ""}
+                                                </td>
+                                            ))}
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mt-4">
-                            <select
-                                className="border border-gray-300 p-2 rounded-md text-gray-700 bg-white outline-none"
-                                value={copyFormat}
-                                onChange={(e) => setCopyFormat(e.target.value)}
+                        {/* Download Buttons */}
+                        <div className="flex justify-center gap-4 mt-4">
+                            <button
+                                className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300 flex items-center gap-2"
+                                onClick={downloadCSV}
                             >
-                                <option value="comma">Comma Separated (,)</option>
-                                <option value="semicolon">Semicolon Separated (;)</option>
-                                <option value="pipe">Pipe Separated (|)</option>
-                                <option value="linebreak">Line Break (\n)</option>
-                                <option value="json">JSON Array Format</option>
-                                <option value="array">JavaScript Array Format</option>
-                            </select>
-
-                            <motion.button
-                                variants={fadeIn('up', 0.6)}
-                                initial="hidden"
-                                whileInView={"show"}
-                                viewport={{ once: true, amount: 0.6 }}
-                                onClick={handleCopyEmails}
-                                className="flex flex-row items-center p-3 rounded-[10px] bg-black hover:bg-accent hover:scale-105 transition-all duration-300 text-white"
+                                <FiDownloadCloud />
+                                Download CSV
+                            </button>
+                            <button
+                                className="px-6 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300 flex items-center gap-2"
+                                onClick={downloadTXT}
                             >
-                                Copy Emails
-                            </motion.button>
+                                <FiDownloadCloud />
+                                Download TXT
+                            </button>
                         </div>
-
-                        <div className='w-[100%]'>
-                            <div>
-                                <motion.h3
-                                    variants={fadeIn('right', 0.6)}
-                                    initial="hidden"
-                                    whileInView={"show"}
-                                    viewport={{ once: true, amount: 0.6 }}
-                                    className='h3'
-                                >
-                                    Results
-                                </motion.h3>
-                            </div>
-                            <motion.textarea
-                                variants={fadeIn('right', 0.6)}
-                                initial="hidden"
-                                whileInView={"show"}
-                                viewport={{ once: true, amount: 0.6 }}
-                                className="bg-[#ffffff] text-[#666666] p-3 rounded-[10px] border-2 border-solid border-slate-200 outline-none w-[100%] h-[200px] resize-none overflow-y-auto overflow-x-auto"
-                                value={textResultValue}
-                                readOnly
-                            />
-                        </div>
-
-                    </div>
-                    <div className='w-[100%]'>
-                        <motion.p
-                            variants={fadeIn('left', 0.4)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className='border-s-2 border-solid border-slate-400 pl-[12px]'
-                        >
-                            Email Extractor is a web based software that helps you extract emails from the bulk of text. And it's completely free to use with some fair usages limit. If you want to extract lots of emails much faster, contact us for premium plans.
-                        </motion.p>
-
-                        <motion.h3
-                            variants={fadeIn('left', 0.6)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            className='h3 mt-7 text-[25px]'
-                        >
-                            What is Email Extractor?
-                        </motion.h3>
-
-                        <motion.p
-                            variants={fadeIn('left', 0.6)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                        >
-                            Email Extractor is a simple little tool that will help you find email addresses hidden in a content. Just copy the entire block of text and paste it in the above input box. All you have to do is click on the “Extract Email” button, it will find all the email addresses present in your input text. Any duplicate address will be ignored safely, as a final result, you get a unique list of all emails extracted.
-
-                        </motion.p>
-                        <motion.button
-                            variants={fadeIn('up', 0.6)}
-                            initial="hidden"
-                            whileInView={"show"}
-                            viewport={{ once: true, amount: 0.6 }}
-                            onClick={handleDownloadButtonClick}
-                            className="flex flex-row items-center mt-4 p-[1rem] rounded-[10px] bg-gray-400 hover:bg-black hover:scale-105 transition-all duration-300 text-white"
-                        >
-                            Download
-                        </motion.button>
-                    </div>
-                </div>
+                    </motion.div>
+                )}
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default EmailExtractor
+export default EmailExtractor;
