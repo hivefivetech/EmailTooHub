@@ -105,7 +105,7 @@ const Header = () => {
                 <div className="flex justify-between items-center px-4">
                     {/* Logo */}
                     <Link href="/" className="cursor-pointer">
-                        <Image src={'/icons/mainLogo.png'} width={90} height={65} alt='' />
+                        <Image src={'/icons/mainLogo.png'} width={90} height={65} alt='Icon' />
                     </Link>
 
                     {/* Nav Open Menu */}

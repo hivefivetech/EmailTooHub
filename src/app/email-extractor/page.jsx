@@ -10,9 +10,12 @@ import { TbMedicalCross } from "react-icons/tb";
 
 const EmailExtractor = () => {
     const [textEmailAreaValue, setTextEmailAreaValue] = useState("");
+    const [uploadedFileName, setUploadedFileName] = useState("");
+    const [isFileUploaded, setIsFileUploaded] = useState(false);
     const [extractedEmails, setExtractedEmails] = useState({});
     const [progress, setProgress] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [showResults, setShowResults] = useState(false);
     const fileInputRef = useRef(null);
 
     // Extract & Categorize Emails
@@ -35,7 +38,7 @@ const EmailExtractor = () => {
 
     // Handle Extract Button Click
     const handleExtractEmails = () => {
-        if (!textEmailAreaValue.trim()) {
+        if (!isFileUploaded && !textEmailAreaValue.trim()) {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -43,12 +46,49 @@ const EmailExtractor = () => {
             });
             return;
         }
+
+        if (!isFileUploaded && textEmailAreaValue.length > 50000) {
+            Swal.fire({
+                icon: "info",
+                title: "🚀 Extract More Data!",
+                html: `
+                    <p style="font-size:16px;">Your text exceeds <strong>50,000 allowed character limit</strong>.</p>
+                    <p style="font-size:14px; color: #555;">To extract huge datasets, contact us on:</p>
+                    <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer" 
+                        style="display: inline-block; padding: 10px 15px; background-color: #0088cc; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top:10px;">
+                        📩 Contact on Telegram
+                    </a>
+                `,
+                confirmButtonText: "OK",
+            }).then(() => {
+                setTextEmailAreaValue("");
+                setExtractedEmails({});
+            });
+            return;
+        }
         setLoading(true);
         setProgress(0);
+        setShowResults(false);
         setTimeout(() => {
             setProgress(100);
-            extractEmails(textEmailAreaValue);
+            if (isFileUploaded) {
+                const file = fileInputRef.current.files[0];
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    extractEmails(e.target.result);
+                    setLoading(false);
+                    setShowResults(true);
+                };
+                reader.readAsText(file);
+            } else {
+                extractEmails(textEmailAreaValue);
+                setLoading(false);
+                setShowResults(true);
+            }
             setLoading(false);
+            setTimeout(() => {
+                setShowResults(true);
+            }, 500);
         }, 1000);
     };
 
@@ -57,20 +97,37 @@ const EmailExtractor = () => {
         const file = event.target.files[0];
         if (!file) return;
 
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 5 * 1024 * 1024) {
             Swal.fire({
-                icon: "error",
-                title: "File too large!",
-                text: "File size should be less than 2MB.",
+                icon: "warning",
+                title: "📂 File Size Limit Reached!",
+                html: `
+                    <p style="font-size:16px;">The uploaded file exceeds the <strong>5MB size limit</strong>.</p>
+                    <p style="font-size:14px; color: #555;">For extracting larger files, reach out to us on:</p>
+                    <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer" 
+                        style="display: inline-block; padding: 10px 15px; background-color: #0088cc; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top:10px;">
+                        📩 Contact on Telegram
+                    </a>
+                `,
+                confirmButtonText: "OK",
+            }).then(() => {
+                setTextEmailAreaValue("");
+                setExtractedEmails({});
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = "";
+                }
             });
             return;
         }
 
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setTextEmailAreaValue(e.target.result);
-        };
-        reader.readAsText(file);
+        // const reader = new FileReader();
+        // reader.onload = (e) => {
+        //     setTextEmailAreaValue(e.target.result);
+        // };
+        // reader.readAsText(file);
+        setUploadedFileName(file.name);
+        setIsFileUploaded(true);
+        setTextEmailAreaValue("");
     };
 
     // Generate CSV with Each Domain as a Column
@@ -100,9 +157,10 @@ const EmailExtractor = () => {
     const handleClear = () => {
         setTextEmailAreaValue("");
         setExtractedEmails({});
-
+        setUploadedFileName("");
+        setIsFileUploaded(false);
         if (fileInputRef.current) {
-            fileInputRef.current.value = ""; // Clear file input
+            fileInputRef.current.value = "";
         }
     };
 
@@ -161,7 +219,11 @@ const EmailExtractor = () => {
                     placeholder="Paste your text here..."
                     value={textEmailAreaValue}
                     onChange={(e) => setTextEmailAreaValue(e.target.value)}
+                    disabled={isFileUploaded}
                 />
+                {isFileUploaded && (
+                    <p className="mt-2 text-gray-700 text-sm">📂 Uploaded File: <strong>{uploadedFileName}</strong></p>
+                )}
 
                 {/* File Upload */}
                 <div className="mt-4">
@@ -213,43 +275,42 @@ const EmailExtractor = () => {
                     </div>
                 )}
 
-                {/* Extracted Results */}
-                {Object.keys(extractedEmails).length > 0 && (
-                    <motion.div
-                        variants={fadeIn("up", 0.4)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.6 }}
-                        className="mt-8 bg-white/80 backdrop-blur-lg p-6 rounded-md shadow-lg"
-                    >
-                        <h4 className="text-lg font-bold mb-4 text-gray-800">
-                            Extracted Emails:
-                        </h4>
+                {loading && (
+                    <div className="mt-8 flex justify-center">
+                        <div className="animate-spin h-10 w-10 border-t-4 border-blue-600 border-solid rounded-full"></div>
+                    </div>
+                )}
+
+                {showResults && Object.keys(extractedEmails).length > 0 && (
+                    <div className="mt-8 bg-white/80 backdrop-blur-lg p-6 rounded-md shadow-lg">
+                        <h4 className="text-lg font-bold mb-4 text-gray-800">Extracted Emails:</h4>
 
                         {/* Display Domains in a Row, Emails Below */}
                         <div className="overflow-x-auto border border-gray-300 rounded-md">
-                            <table className="w-full text-left text-sm text-gray-600">
-                                <thead className="bg-gray-200">
-                                    <tr>
-                                        {Object.keys(extractedEmails).map((domain, index) => (
-                                            <th key={index} className="p-2 text-blue-600 font-semibold">
-                                                @{domain}
-                                            </th>
-                                        ))}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {Array.from({ length: Math.max(...Object.values(extractedEmails).map(arr => arr.length)) }).map((_, rowIndex) => (
-                                        <tr key={rowIndex} className="border-t">
-                                            {Object.keys(extractedEmails).map((domain, colIndex) => (
-                                                <td key={colIndex} className="p-2">
-                                                    {extractedEmails[domain][rowIndex] || ""}
-                                                </td>
+                            <div className="max-h-96 overflow-y-auto"> {/* Fixed height with vertical scroll */}
+                                <table className="w-full text-left text-sm text-gray-600">
+                                    <thead className="bg-gray-200 sticky top-0"> {/* Sticky header */}
+                                        <tr>
+                                            {Object.keys(extractedEmails).map((domain, index) => (
+                                                <th key={index} className="p-2 text-blue-600 font-semibold">
+                                                    @{domain}
+                                                </th>
                                             ))}
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        {Array.from({ length: Math.max(...Object.values(extractedEmails).map(arr => arr.length)) }).map((_, rowIndex) => (
+                                            <tr key={rowIndex} className="border-t">
+                                                {Object.keys(extractedEmails).map((domain, colIndex) => (
+                                                    <td key={colIndex} className="p-2">
+                                                        {extractedEmails[domain][rowIndex] || ""}
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                         {/* Download Buttons */}
@@ -269,7 +330,7 @@ const EmailExtractor = () => {
                                 Download TXT
                             </button>
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>

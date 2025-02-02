@@ -12,6 +12,7 @@ const EmailDomainRemover = () => {
     const [selectedDomains, setSelectedDomains] = useState([]);
     const [filteredEmails, setFilteredEmails] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("@");
     const [showDownload, setShowDownload] = useState(false);
     const fileInputRef = useRef(null);
 
@@ -41,6 +42,10 @@ const EmailDomainRemover = () => {
         setSelectedDomains((prev) =>
             prev.includes(domain) ? prev.filter(d => d !== domain) : [...prev, domain]
         );
+    };
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value.toLowerCase());
     };
 
     // Remove Selected Domains
@@ -135,8 +140,17 @@ const EmailDomainRemover = () => {
                         className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md"
                     >
                         <h3 className="text-lg font-semibold text-gray-700 mb-3">Select Domains to Remove:</h3>
+                        <div className="mb-4">
+                            <input
+                                type="text"
+                                value={searchQuery}
+                                onChange={handleSearchChange}
+                                placeholder="Search domain..."
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                            />
+                        </div>
                         <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 border border-gray-300 rounded-md">
-                            {uniqueDomains.map((domain, index) => (
+                            {uniqueDomains.filter(domain => domain.includes(searchQuery.replace("@", ""))).map((domain, index) => (
                                 <button
                                     key={index}
                                     onClick={() => handleDomainSelection(domain)}

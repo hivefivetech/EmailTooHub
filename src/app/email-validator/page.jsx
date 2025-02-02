@@ -84,39 +84,6 @@ const EmailAddressValidator = () => {
         }
     };
 
-    const handleCSVUpload = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                const rows = content.split("\n");
-                const emailsFromCSV = rows
-                    .map((row) => row.split(",")[0].trim().replace(/^"|"$/g, ""))
-                    .filter((email) => email !== "");
-                setCsvEmails(emailsFromCSV);
-            };
-            reader.readAsText(file);
-        }
-    };
-
-    const uploadFileToDrive = async (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            const response = await fetch("http://localhost:5000/upload", {
-                method: "POST",
-                body: formData,
-            });
-
-            return await response.json();
-        } catch (error) {
-            console.error("File Upload Error:", error);
-            return { success: false };
-        }
-    };
-
     const uploadFileToServer = async (file) => {
         const formData = new FormData();
 
@@ -182,17 +149,6 @@ const EmailAddressValidator = () => {
                 return;
             }
         }
-        // Drive
-        // const fileInput = fileInputRef.current;
-        // if (fileInput && fileInput.files.length > 0) {
-        //     const file = fileInput.files[0];
-        //     const uploadResponse = await uploadFileToDrive(file);
-        //     if (!uploadResponse.success) {
-        //         alert("File upload failed. Please try again.");
-        //         setIsLoading(false);
-        //         return;
-        //     }
-        // }
 
         // Step 2: Start Validation Process
         const uniqueEmails = Array.from(new Set(emailsToValidate));
@@ -244,7 +200,23 @@ const EmailAddressValidator = () => {
 
     const validateEmailFormat = (email) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return emailRegex.test(email);
+    
+        if (!emailRegex.test(email)) return false;
+    
+        const domain = email.split("@")[1];
+    
+        // List of valid TLDs
+        const validTLDs = [
+            "com", "org", "net", "edu", "gov", "mil", "int", "co", "io", "ai",
+            "biz", "info", "xyz", "tech", "cloud", "pro", "me", "name", "museum",
+            "travel", "global", "us", "uk", "ca", "au", "de", "fr", "jp", "cn", "ru",
+            "ph", "in", "sg", "nz", "br", "mx", "za", "sa", "my"
+        ];
+    
+        const domainParts = domain.split(".");
+        const tld = domainParts[domainParts.length - 1].toLowerCase();
+    
+        return validTLDs.includes(tld);
     };
 
     const isDisposableEmail = (email) => {
@@ -254,11 +226,18 @@ const EmailAddressValidator = () => {
 
     const checkDomainExistence = async (domain) => {
         try {
-            const response = await fetch(
-                `https://dns.google/resolve?name=${domain}&type=A`
-            );
-            const data = await response.json();
-            return data?.Answer?.length > 0;
+            const aResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
+            const aData = await aResponse.json();
+    
+            const mxResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
+            const mxData = await mxResponse.json();
+    
+            if (aData?.Answer?.length > 0 || mxData?.Answer?.length > 0) return true;
+    
+            const whoisResponse = await fetch(`https://rdap.org/domain/${domain}`);
+            const whoisData = await whoisResponse.json();
+    
+            return whoisData?.handle || whoisData?.entities?.length > 0;
         } catch (error) {
             console.error("Domain check error:", error);
             return false;
@@ -279,17 +258,6 @@ const EmailAddressValidator = () => {
             console.error("DNS check error:", error);
             return false;
         }
-    };
-
-    const downloadCSV = (emails, filename) => {
-        const csvContent = `data:text/csv;charset=utf-8,${emails.join("\n")}`;
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", filename);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
     };
 
     const downloadFile = (emails, filename, type) => {
@@ -484,13 +452,7 @@ const EmailAddressValidator = () => {
                 )}
 
                 {validationResults.length > 0 && (
-                    <motion.div
-                        variants={fadeIn("up", 0.4)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.6 }}
-                        className="mt-8 bg-white w-full p-6 rounded-md shadow-md"
-                    >
+                    <div className="mt-8 bg-white w-full p-6 rounded-md shadow-md">
                         <h4 className="text-lg font-bold mb-4 text-gray-800">
                             Validation Summary:
                         </h4>
@@ -565,11 +527,11 @@ const EmailAddressValidator = () => {
                                 <li>Valid email format</li>
                                 <li>Duplicate emails removal</li>
                                 <li>Non-disposable domain</li>
-                                <li>Domain existence (A or AAAA records)</li>
+                                <li>Domain existence (A, AAAA, and WHOIS lookup)</li>
                                 <li>MX records for the domain</li>
                             </ul>
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>

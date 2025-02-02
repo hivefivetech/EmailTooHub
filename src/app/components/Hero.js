@@ -9,7 +9,7 @@ import { TbMedicalCross } from "react-icons/tb";
 import { MdOutlineEmail, MdDesignServices, MdMarkEmailRead } from "react-icons/md";
 import { IoMdMailUnread, IoIosMailOpen } from "react-icons/io";
 import { FaRandom } from "react-icons/fa";
-import { FaRegImages, FaRegEnvelope } from "react-icons/fa6";
+import { FaRegImages, FaRegEnvelope, FaDatabase } from "react-icons/fa6";
 
 export const metadata = {
   title: "EmailToolHub | Online Email Marketing Tool for Free! | Email Extractor, Free Email Validator, Free Email Deliverability Check, HTML Editor, Email Splitter",
@@ -62,6 +62,12 @@ const services = [
     icon: <FaRegEnvelope className="text-5xl text-accent" />,
     link: "/email-domain-filter",
     description: "Filter and remove unwanted email domains from your list with ease, and download the cleaned list.",
+  },
+  {
+    name: "Email Extractor SQL",
+    icon: <FaDatabase className="text-5xl text-accent" />,
+    link: "/email-extract-sql",
+    description: "Extract and manage email lists efficiently using SQL-based filtering and cleaning processes.",
   },
   {
     name: "Randome Name & Address Generator",

@@ -41,6 +41,10 @@ const services = [
         link: "/email-domain-filter",
     },
     {
+        name: "Email Extractor SQL",
+        link: "/email-extract-sql",
+    },
+    {
         name: "Random Name & Address Generator",
         link: "/random-name-address-generator",
     },
