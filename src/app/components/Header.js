@@ -126,7 +126,7 @@ const Header = () => {
 
                     <a
                         className="cursor-pointer hover:font-bold duration-300"
-                        href="https://html-editor.emailtoolhub.com/"
+                        href="https://inbox-checker.emailtoolhub.com/"
                         target="_blank"
                         rel="noopener noreferrer"
                         activeclass="active"
