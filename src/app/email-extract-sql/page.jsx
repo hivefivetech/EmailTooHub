@@ -184,7 +184,7 @@ const EmailExtractorFromSQL = () => {
                 {/* Progress Bar */}
                 {loading && (
                     <div className="w-full bg-gray-300 rounded-full h-2.5 mt-4">
-                        <div className="bg-blue-600 h-2.5 rounded-full transition-all" style={{ width: `${progress}%` }}></div>
+                        <div className="bg-red-600 h-2.5 rounded-full transition-all" style={{ width: `${progress}%` }}></div>
                     </div>
                 )}
 

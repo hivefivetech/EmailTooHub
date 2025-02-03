@@ -15,19 +15,34 @@ const EmailSplitter = () => {
     const [loading, setLoading] = useState(false);
     const fileInputRef = useRef(null);
     const [fileName, setFileName] = useState("");
+    const [progress, setProgress] = useState(0);
+    const [searchQuery, setSearchQuery] = useState("");
 
     // Handle File Upload (CSV or TXT)
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         if (!file) return;
 
-        setFileName(file.name); // Store the uploaded file name
+        setFileName(file.name);
 
-        if (file.size > 2 * 1024 * 1024) {
+        if (file.size > 100 * 1024 * 1024) {
             Swal.fire({
-                icon: "error",
-                title: "File too large!",
-                text: "File size should be less than 2MB.",
+                icon: "warning",
+                title: "📂 File Too Large!",
+                html: `
+                    <p style="font-size:16px;">The uploaded file exceeds <strong>100MB size limit</strong>.</p>
+                    <p style="font-size:14px; color: #555;">For processing larger files, reach out to us on:</p>
+                    <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer" 
+                        style="display: inline-block; padding: 10px 15px; background-color: #0088cc; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top:10px;">
+                        📩 Contact on Telegram
+                    </a>
+                `,
+                confirmButtonText: "OK",
+            }).then(() => {
+                setFileName("");
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = "";
+                }
             });
             return;
         }
@@ -76,15 +91,24 @@ const EmailSplitter = () => {
         }
 
         setLoading(true);
-        setTimeout(() => {
-            const size = parseInt(batchSize);
-            const splitBatches = [];
-            for (let i = 0; i < emails.length; i += size) {
-                splitBatches.push(emails.slice(i, i + size));
-            }
+        setProgress(0);
 
+        let size = parseInt(batchSize);
+        const totalSteps = Math.ceil(emails.length / size);
+        const splitBatches = [];
+
+        for (let i = 0; i < emails.length; i += size) {
+            splitBatches.push(emails.slice(i, i + size));
+
+            setTimeout(() => {
+                setProgress(((i / emails.length) * 100).toFixed(2));
+            }, i * 5);
+        }
+
+        setTimeout(() => {
             setBatches(splitBatches);
             setLoading(false);
+            setProgress(100);
 
             Swal.fire({
                 icon: "success",
@@ -96,10 +120,8 @@ const EmailSplitter = () => {
 
     // Download a Batch as CSV or TXT
     const downloadBatch = (batch, index, format) => {
-        let content = format === "csv"
-            ? `"Email"\n` + batch.map(email => `"${email.replace(/"/g, '')}"`).join("\n")
-            : batch.map(email => email.replace(/"/g, '')).join("\n");
-    
+        let content = batch.map(email => email.replace(/"/g, '')).join("\n");
+
         const blob = new Blob([content], { type: format === "csv" ? "text/csv;charset=utf-8" : "text/plain;charset=utf-8" });
         saveAs(blob, `batch_${index + 1}.${format}`);
     };
@@ -205,51 +227,64 @@ const EmailSplitter = () => {
                     </div>
                 </div>
 
+                {loading && (
+                    <div className="w-full bg-gray-300 rounded-full h-2.5 mt-4">
+                        <div
+                            className="bg-red-600 h-2.5 rounded-full transition-all"
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+                )}
+
                 {/* Display Batches */}
                 {batches.length > 0 && (
-                    <motion.div
-                        variants={fadeIn("up", 0.4)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.6 }}
-                        className="mt-8 bg-white p-6 rounded-md shadow-md"
-                    >
+                    <div className="mt-8 bg-white p-6 rounded-md shadow-md max-h-[500px] overflow-y-auto">
                         <h4 className="text-lg font-bold mb-4 text-gray-800">
-                            Batches Created:
+                            Batches Created: {batches.length}
                         </h4>
 
-                        {batches.map((batch, index) => (
-                            <div key={index} className="mb-4 p-4 border border-gray-300 rounded-md">
-                                <p className="text-blue-600 font-semibold">
-                                    Batch {index + 1} ({batch.length} emails)
-                                </p>
+                        {/* Search Bar */}
+                        <input
+                            type="text"
+                            placeholder="Search batch by number..."
+                            className="w-full p-2 border border-gray-300 rounded-md mb-4"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
 
-                                {/* Show first 5 emails for preview */}
-                                <ul className="text-gray-700 text-sm mt-2">
-                                    {batch.slice(0, 5).map((email, idx) => (
-                                        <li key={idx} className="border-b py-1">{email}</li>
-                                    ))}
-                                </ul>
-
-                                <div className="flex justify-center gap-2 mt-2">
-                                    <button
-                                        className="px-4 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
-                                        onClick={() => downloadBatch(batch, index, "csv")}
-                                    >
-                                        Download CSV
-                                    </button>
-                                    <button
-                                        className="px-4 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
-                                        onClick={() => downloadBatch(batch, index, "txt")}
-                                    >
-                                        Download TXT
-                                    </button>
-                                </div>
-
-                                <hr className="my-3 border-gray-300" />
-                            </div>
-                        ))}
-                    </motion.div>
+                        {batches
+                            .filter((batch, index) => (`${index + 1}`).includes(searchQuery))
+                            .map((batch, index) => {
+                                const originalIndex = batches.indexOf(batch); // Preserve original index
+                                return (
+                                    <div key={originalIndex} className="mb-4 p-4 border border-gray-300 rounded-md">
+                                        <p className="text-blue-600 font-semibold">
+                                            Batch {originalIndex + 1} ({batch.length} emails)
+                                        </p>
+                                        <ul className="text-gray-700 text-sm mt-2">
+                                            {batch.slice(0, 5).map((email, idx) => (
+                                                <li key={idx} className="border-b py-1">{email}</li>
+                                            ))}
+                                        </ul>
+                                        <div className="flex justify-center gap-2 mt-2">
+                                            <button
+                                                className="px-4 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
+                                                onClick={() => downloadBatch(batch, originalIndex, "csv")}
+                                            >
+                                                Download CSV
+                                            </button>
+                                            <button
+                                                className="px-4 py-1 bg-green-500 text-white rounded-md hover:bg-green-700 transition duration-300"
+                                                onClick={() => downloadBatch(batch, originalIndex, "txt")}
+                                            >
+                                                Download TXT
+                                            </button>
+                                        </div>
+                                        <hr className="my-3 border-gray-300" />
+                                    </div>
+                                );
+                            })}
+                    </div>
                 )}
             </div>
         </section>

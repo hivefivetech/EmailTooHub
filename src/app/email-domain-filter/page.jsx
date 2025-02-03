@@ -15,6 +15,7 @@ const EmailDomainRemover = () => {
     const [searchQuery, setSearchQuery] = useState("@");
     const [showDownload, setShowDownload] = useState(false);
     const fileInputRef = useRef(null);
+    const [fileName, setFileName] = useState("");
 
     // Handle File Upload
     const handleFileUpload = (event) => {
@@ -26,15 +27,17 @@ const EmailDomainRemover = () => {
             const content = e.target.result.split(/\r?\n/).map(email => email.trim()).filter(email => email);
             const emailSet = new Set(content);
             setUploadedEmails(Array.from(emailSet));
-
-            // Extract unique lowercase domains
-            const domains = Array.from(new Set(content.map(email => email.split("@")[1]?.toLowerCase()).filter(Boolean)));
-            setUniqueDomains(domains);
+            setUniqueDomains([]); // Clear previous domains
             setSelectedDomains([]);
             setShowDownload(false);
         };
-
+        setFileName(file.name);
         reader.readAsText(file);
+    };
+
+    const extractDomains = () => {
+        const domains = Array.from(new Set(uploadedEmails.map(email => email.split("@")[1]?.toLowerCase()).filter(Boolean)));
+        setUniqueDomains(domains);
     };
 
     // Handle Domain Selection
@@ -61,9 +64,8 @@ const EmailDomainRemover = () => {
 
     // Download Filtered Emails
     const downloadFile = (format) => {
-        let content = format === "csv"
-            ? `"Email"\n` + filteredEmails.join("\n")
-            : filteredEmails.map(email => email.replace(/"/g, '')).join("\n");
+        let content = filteredEmails.map(email => email.replace(/"/g, '')).join("\n");
+
         const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
         saveAs(blob, `filtered_emails.${format}`);
     };
@@ -74,6 +76,7 @@ const EmailDomainRemover = () => {
         setUniqueDomains([]);
         setSelectedDomains([]);
         setFilteredEmails([]);
+        setFileName("");
         setShowDownload(false);
         fileInputRef.current.value = null;
     };
@@ -119,6 +122,21 @@ const EmailDomainRemover = () => {
                     />
                     <p className="text-gray-700">Click or drag a CSV/TXT file here to upload</p>
                 </div>
+
+                {fileName && (
+                    <p className="text-gray-700 text-sm mt-2">
+                        Uploaded File: <span className="font-semibold">{fileName}</span>
+                    </p>
+                )}
+
+                {uploadedEmails.length > 0 && uniqueDomains.length === 0 && (
+                    <button
+                        onClick={extractDomains}
+                        className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition w-full"
+                    >
+                        Find Domains for Removal
+                    </button>
+                )}
 
                 {/* Clear Button */}
                 {uploadedEmails.length > 0 && (
@@ -183,13 +201,7 @@ const EmailDomainRemover = () => {
 
                 {/* Download Buttons */}
                 {showDownload && filteredEmails.length > 0 && (
-                    <motion.div
-                        variants={fadeIn("up", 0.3)}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true }}
-                        className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md text-center"
-                    >
+                    <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md text-center">
                         <h3 className="text-lg font-semibold text-gray-700 mb-3">Filtered Emails Ready!</h3>
                         <p className="text-gray-600 text-sm mb-4">{filteredEmails.length} emails remaining.</p>
                         <div className="flex justify-center gap-4">
@@ -206,7 +218,7 @@ const EmailDomainRemover = () => {
                                 Download TXT
                             </button>
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
 

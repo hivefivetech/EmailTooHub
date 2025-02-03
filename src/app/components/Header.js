@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 // React Scroll
-import { Link as ScrollLink } from 'react-scroll';
+// import { Link as ScrollLink } from 'react-scroll';
 
 // Components
 import SearchMobile from "./SearchMobile";

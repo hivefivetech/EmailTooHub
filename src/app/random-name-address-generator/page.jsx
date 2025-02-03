@@ -94,13 +94,7 @@ const RandomNameAddressGenerator = () => {
 
                 {/* Display Generated Data */}
                 {generatedData.length > 0 && (
-                    <motion.div
-                        variants={fadeIn("up", 0.3)}
-                        initial="hidden"
-                        whileInView="show"
-                        viewport={{ once: true }}
-                        className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md"
-                    >
+                    <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-md">
                         <div className="flex justify-between items-center mb-3">
                             <h3 className="text-lg font-semibold text-gray-700">Generated Results</h3>
                             <div className="flex gap-4">
@@ -134,7 +128,7 @@ const RandomNameAddressGenerator = () => {
                                 </p>
                             ))}
                         </div>
-                    </motion.div>
+                    </div>
                 )}
             </div>
         </section>
