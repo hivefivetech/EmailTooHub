@@ -47,12 +47,12 @@ const EmailExtractor = () => {
             return;
         }
 
-        if (!isFileUploaded && textEmailAreaValue.length > 50000) {
+        if (!isFileUploaded && textEmailAreaValue.length > 200000) {
             Swal.fire({
                 icon: "info",
                 title: "🚀 Extract More Data!",
                 html: `
-                    <p style="font-size:16px;">Your text exceeds <strong>50,000 allowed character limit</strong>.</p>
+                    <p style="font-size:16px;">Your text exceeds <strong>200,000 allowed character limit</strong>.</p>
                     <p style="font-size:14px; color: #555;">To extract huge datasets, contact us on:</p>
                     <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer" 
                         style="display: inline-block; padding: 10px 15px; background-color: #0088cc; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top:10px;">
@@ -97,12 +97,12 @@ const EmailExtractor = () => {
         const file = event.target.files[0];
         if (!file) return;
 
-        if (file.size > 5 * 1024 * 1024) {
+        if (file.size > 100 * 1024 * 1024) {
             Swal.fire({
                 icon: "warning",
                 title: "📂 File Size Limit Reached!",
                 html: `
-                    <p style="font-size:16px;">The uploaded file exceeds the <strong>5MB size limit</strong>.</p>
+                    <p style="font-size:16px;">The uploaded file exceeds the <strong>100MB size limit</strong>.</p>
                     <p style="font-size:14px; color: #555;">For extracting larger files, reach out to us on:</p>
                     <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer" 
                         style="display: inline-block; padding: 10px 15px; background-color: #0088cc; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top:10px;">
