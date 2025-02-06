@@ -16,19 +16,33 @@ import SearchMobile from "./SearchMobile";
 import { useMediaQuery } from "react-responsive";
 
 // Icons
-import { BiMenuAltRight, BiX } from 'react-icons/bi';
+import { BiLogOut, BiMenuAltRight, BiUser, BiX } from 'react-icons/bi';
 
 // Search Context
 import { SearchContext } from "../context/Search";
+import { useRouter } from "next/navigation";
+import { MdDashboard } from "react-icons/md";
 
 const Header = () => {
     const { setSearchActive } = useContext(SearchContext)
-
     const [header, setHeader] = useState(false);
     const [nav, setNav] = useState(false);
-
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef(null);
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const router = useRouter();
+
+    useEffect(() => {
+        const user = localStorage.getItem("userToken");
+        setIsLoggedIn(!!user);
+    }, []);
+
+    const handleLogout = () => {
+        localStorage.removeItem("userToken");
+        setIsLoggedIn(false);
+        router.replace("/");
+    };
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -117,7 +131,7 @@ const Header = () => {
                 {/* Nav */}
                 <nav className={`${nav ? 'max-h-max py-8 px-4 xl:py-0 xl:px-0' : 'max-h-0 xl:max-h-max'} flex flex-col w-full bg-white gap-y-6 overflow-hidden font-bold xl:font-medium xl:flex-row xl:w-max xl:gap-x-8 xl:h-max xl:bg-transparent xl:pb-0 transition-all duration-300 text-center xl:text-left uppercase text-sm xl:text-[15px] xl:normal-case`}>
                     <Link
-                        className="cursor-pointer hover:font-bold duration-300"
+                        className="cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]"
                         href="/"
                         activeclass="active"
                     >
@@ -125,7 +139,7 @@ const Header = () => {
                     </Link>
 
                     <a
-                        className="cursor-pointer hover:font-bold duration-300"
+                        className="cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]"
                         href="https://inbox-checker.emailtoolhub.com/"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -135,7 +149,7 @@ const Header = () => {
                     </a>
 
                     <Link
-                        className="cursor-pointer hover:font-bold duration-300"
+                        className="cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]"
                         href="/email-validator"
                         activeclass="active"
                     >
@@ -143,7 +157,7 @@ const Header = () => {
                     </Link>
 
                     <Link
-                        className="cursor-pointer hover:font-bold duration-300"
+                        className="cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]"
                         href="/base64-image-encoder"
                         activeclass="active"
                     >
@@ -151,12 +165,33 @@ const Header = () => {
                     </Link>
 
                     <Link
-                        className="cursor-pointer hover:font-bold duration-300"
+                        className="cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]"
                         href="/blog"
                         activeclass="active"
                     >
                         Blog
                     </Link>
+
+                    {!isLoggedIn ? (
+                        <Link href="/login" className="flex gap-1 items-center justify-center cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]">
+                            {/* <BiUser size={24} /> */}
+                            <p>Login</p>
+                        </Link>
+                    ) : (
+                        <>
+                            {/* Dashboard Icon */}
+                            <Link href="/dashboard" className="flex gap-1 items-center justify-center cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]">
+                                {/* <MdDashboard size={24} /> */}
+                                <p>Dashboard</p>
+                            </Link>
+
+                            {/* Logout Icon */}
+                            <button onClick={handleLogout} className="flex gap-1 items-center justify-center cursor-pointer text-gray-700 hover:text-red-600 transition duration-300 hover:translate-y-[-2px]">
+                                {/* <BiLogOut size={24} /> */}
+                                <p>Logout</p>
+                            </button>
+                        </>
+                    )}
 
                     {/* Dropdown */}
                     {/* <div ref={dropdownRef}>

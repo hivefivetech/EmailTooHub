@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
+import Swal from "sweetalert2";
 import { saveAs } from "file-saver";
 import { TbMedicalCross } from "react-icons/tb";
+import { useUser } from "../hooks/useUser";
 
 const EmailDomainRemover = () => {
     const [uploadedEmails, setUploadedEmails] = useState([]);
@@ -17,10 +19,86 @@ const EmailDomainRemover = () => {
     const fileInputRef = useRef(null);
     const [fileName, setFileName] = useState("");
 
+    const { fetchUserById, user } = useUser();
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("userToken");
+        if (storedUser) {
+            const userId = JSON.parse(atob(storedUser.split(".")[1])).userId;
+            fetchUserById(userId);
+        }
+    }, []);
+
     // Handle File Upload
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
         if (!file) return;
+
+        const isLoggedIn = localStorage.getItem("userToken");
+        const isFreeUser = isLoggedIn && user?.type === "free";
+        const isPaidUser = isLoggedIn && user?.type === "paid";
+
+        const maxSize = !isLoggedIn ? 5 * 1024 * 1024
+            : isFreeUser ? 10 * 1024 * 1024
+                : null;
+
+        if (maxSize && file.size > maxSize) {
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "📂 File Too Large!",
+                    html: `
+                            <div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                                <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                    File Size Limit Exceeded
+                                </p>
+                                <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                    The file you've attempted to upload exceeds the <strong style="color: #dc3545;">5MB limit</strong>. Please log in now!
+                                </p>
+                                <a href="/login" 
+                                    style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                    border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    Log In
+                                </a>
+                            </div>
+                           `,
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = "";
+                    }
+                });
+                return;
+            }
+
+            if (isFreeUser) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "📂 Upgrade Required!",
+                    html: `
+                            <div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                                <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                    File Size Limit Exceeded
+                                </p>
+                                <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                    The file you've attempted to upload exceeds the <strong style="color: #dc3545;">10MB limit</strong>. Please contact on telegram to upgrade for premium plan to get access to unlimited access.
+                                </p>
+                                <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer"
+                                    style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                    border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    📩 Contact on Telegram
+                                </a>
+                            </div>
+                           `,
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = "";
+                    }
+                });
+                return;
+            }
+        }
 
         const reader = new FileReader();
         reader.onload = (e) => {
@@ -164,8 +242,22 @@ const EmailDomainRemover = () => {
                                 value={searchQuery}
                                 onChange={handleSearchChange}
                                 placeholder="Search domain..."
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-red-500"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none duration-300 focus:ring-2 focus:ring-red-500"
                             />
+                        </div>
+                        <div className="flex justify-between mb-4">
+                            <button
+                                onClick={() => setSelectedDomains([...uniqueDomains])}
+                                className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-700 transition"
+                            >
+                                Select All Domains
+                            </button>
+                            <button
+                                onClick={() => setSelectedDomains([])}
+                                className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-700 transition"
+                            >
+                                Deselect All Domains
+                            </button>
                         </div>
                         <div className="flex flex-wrap gap-2 max-h-40 overflow-y-auto p-2 border border-gray-300 rounded-md">
                             {uniqueDomains.filter(domain => domain.includes(searchQuery.replace("@", ""))).map((domain, index) => (

@@ -12,6 +12,7 @@
     "@faker-js/faker": "^9.4.0",
     "@headlessui/react": "^1.7.18",
     "@tinymce/tinymce-react": "^5.1.1",
+    "axios": "^1.7.9",
     "chart.js": "^4.4.7",
     "country-list": "^2.3.0",
     "date-fns": "^3.3.1",

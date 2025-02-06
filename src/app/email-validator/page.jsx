@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 // Framer Motion
 import { motion } from "framer-motion";
@@ -8,6 +8,8 @@ import { motion } from "framer-motion";
 // Variants
 import { fadeIn } from "../../../variants";
 import { useState } from "react";
+import { useUser } from "../hooks/useUser";
+import Swal from "sweetalert2";
 
 // Pie Chart
 import { Pie } from "react-chartjs-2";
@@ -30,6 +32,16 @@ const EmailAddressValidator = () => {
     const Load1 = "/gifs/loading1.gif";
     const Celeb1 = "/gifs/celebration.gif";
 
+    const { fetchUserById, user } = useUser();
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("userToken");
+        if (storedUser) {
+            const userId = JSON.parse(atob(storedUser.split(".")[1])).userId;
+            fetchUserById(userId);
+        }
+    }, []);
+
     // List of known disposable email domains
     const disposableDomains = [
         "10minutemail.com",
@@ -51,37 +63,84 @@ const EmailAddressValidator = () => {
         "maildrop.cc",
         "getnada.com",
         "mailnesia.com",
-        "tempmailaddress.com",
-        // Add more domains
+        "tempmailaddress.com"
     ];
 
     const handleFileUpload = (event) => {
         const file = event.target.files[0];
-        if (file) {
-            setUploadedFileName(file.name);
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const content = e.target.result;
-                let emails = [];
+        if (!file) return;
 
-                if (file.name.endsWith(".csv")) {
-                    emails = content
-                        .split("\n")
-                        // .map((row) => row.split(",")[0].trim().replace(/^"|"$/g, ""))
-                        .map((row) => row.replace(/"/g, "").split(",")[0].trim())
-                        .filter((email) => email !== "");
-                } else if (file.name.endsWith(".txt")) {
-                    emails = content
-                        .split("\n")
-                        .map((email) => email.trim())
-                        .filter((email) => email !== "");
-                }
+        const isLoggedIn = localStorage.getItem("userToken");
+        const isFreeUser = isLoggedIn && user?.type === "free";
+        const isPaidUser = isLoggedIn && user?.type === "paid";
 
-                setUploadedEmails(emails);
-                setInputEmails("");
-            };
-            reader.readAsText(file);
+        const maxFileSize = !isLoggedIn ? 5 * 1024 * 1024
+            : isFreeUser ? 10 * 1024 * 1024
+                : null;
+
+        if (maxFileSize && file.size > maxFileSize) {
+            Swal.fire({
+                icon: "warning",
+                title: "📂 File Too Large!",
+                html: isPaidUser
+                    ? `<p>Your file exceeds normal limits, but as a premium user, you can proceed without restrictions.</p>`
+                    : isFreeUser
+                        ? `<div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                                <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                    File Size Limit Exceeded
+                                </p>
+                                <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                    The file you've attempted to upload exceeds the <strong style="color: #dc3545;">10MB limit</strong>. Please contact on telegram to upgrade for premium plan to get access to unlimited access.
+                                </p>
+                                <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer"
+                                    style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                    border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    📩 Contact on Telegram
+                                </a>
+                            </div>`
+                        : `<div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                                <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                    File Size Limit Exceeded
+                                </p>
+                                <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                    The file you've attempted to upload exceeds the <strong style="color: #dc3545;">5MB limit</strong>. Please log in now!
+                                </p>
+                                <a href="/login" 
+                                    style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                    border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    Log In
+                                </a>
+                            </div>`,
+                confirmButtonText: "OK",
+            }).then(() => {
+                if (fileInputRef.current) fileInputRef.current.value = "";
+            });
+            return;
         }
+
+        setUploadedFileName(file.name);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            let emails = [];
+
+            if (file.name.endsWith(".csv")) {
+                emails = content
+                    .split("\n")
+                    .map((row) => row.replace(/"/g, "").split(",")[0].trim())
+                    .filter((email) => email !== "");
+            } else if (file.name.endsWith(".txt")) {
+                emails = content
+                    .split("\n")
+                    .map((email) => email.trim())
+                    .filter((email) => email !== "");
+            }
+
+            setUploadedEmails(emails);
+        };
+
+        reader.readAsText(file);
     };
 
     const uploadFileToServer = async (file) => {
@@ -133,6 +192,56 @@ const EmailAddressValidator = () => {
 
         if (emailsToValidate.length === 0) {
             setIsLoading(false);
+            return;
+        }
+
+        const isLoggedIn = localStorage.getItem("userToken");
+        const isFreeUser = isLoggedIn && user?.type === "free";
+        const isPaidUser = isLoggedIn && user?.type === "paid";
+
+        const maxChars = !isLoggedIn ? 200000
+            : isFreeUser ? 220000
+                : null;
+
+        if (maxChars && emailsToValidate.join("").length > maxChars) {
+            setIsLoading(false)
+
+            Swal.fire({
+                icon: "info",
+                title: isPaidUser ? "🚀 No Limits!" : isFreeUser ? "🚀 Upgrade Required!" : "🚀 Extract More Data!",
+                html: isPaidUser
+                    ? `<p>You are a premium user and can validate unlimited emails.</p>`
+                    : isFreeUser
+                        ? `<div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                                <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                    Character Limit Exceeded
+                                </p>
+                                <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                    Your text exceeds the <strong style="color: #dc3545;">20,000 character limit</strong>. Please contact on telegram to upgrade for premium plan to get access to unlimited access.
+                                </p>
+                                <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer"
+                                    style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                    border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                    📩 Contact on Telegram
+                                </a>
+                            </div>`
+                        : `<div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                            <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                Character Limit Exceeded
+                            </p>
+                            <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                Your text exceeds the <strong style="color: #dc3545;">200,000 character limit</strong>. Please log in now!.
+                            </p>
+                            <a href="/login" 
+                                style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                Log In
+                            </a>
+                        </div>`,
+                confirmButtonText: "OK",
+            }).then(() => {
+                setInputEmails("");
+            });
             return;
         }
 
@@ -200,11 +309,11 @@ const EmailAddressValidator = () => {
 
     const validateEmailFormat = (email) => {
         const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    
+
         if (!emailRegex.test(email)) return false;
-    
+
         const domain = email.split("@")[1];
-    
+
         // List of valid TLDs
         const validTLDs = [
             "com", "org", "net", "edu", "gov", "mil", "int", "co", "io", "ai",
@@ -212,10 +321,10 @@ const EmailAddressValidator = () => {
             "travel", "global", "us", "uk", "ca", "au", "de", "fr", "jp", "cn", "ru",
             "ph", "in", "sg", "nz", "br", "mx", "za", "sa", "my"
         ];
-    
+
         const domainParts = domain.split(".");
         const tld = domainParts[domainParts.length - 1].toLowerCase();
-    
+
         return validTLDs.includes(tld);
     };
 
@@ -228,15 +337,15 @@ const EmailAddressValidator = () => {
         try {
             const aResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
             const aData = await aResponse.json();
-    
+
             const mxResponse = await fetch(`https://dns.google/resolve?name=${domain}&type=MX`);
             const mxData = await mxResponse.json();
-    
+
             if (aData?.Answer?.length > 0 || mxData?.Answer?.length > 0) return true;
-    
+
             const whoisResponse = await fetch(`https://rdap.org/domain/${domain}`);
             const whoisData = await whoisResponse.json();
-    
+
             return whoisData?.handle || whoisData?.entities?.length > 0;
         } catch (error) {
             console.error("Domain check error:", error);
@@ -359,9 +468,10 @@ const EmailAddressValidator = () => {
                     initial="hidden"
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.6 }}
-                    className="max-w-[800px] mx-auto mb-8 text-lg text-gray-700"
+                    className="mx-auto mb-8 text-lg text-gray-700"
                 >
-                    Validate multiple email addresses instantly, including those from CSV files. Clean your data with ease!
+                    Validate multiple email addresses instantly, including those from CSV or TXT files. Clean your data with ease!<br />
+                    Ensure TXT files have one email per line without commas or gaps, and CSV files list emails in the first column without gaps
                 </motion.h3>
 
                 <motion.div
@@ -378,6 +488,9 @@ const EmailAddressValidator = () => {
                         onChange={(e) => setInputEmails(e.target.value)}
                         disabled={uploadedEmails.length > 0}
                     />
+                    <div className="text-right text-sm text-gray-500 mt-1">
+                        {inputEmails.length} characters
+                    </div>
 
                     {uploadedEmails.length > 0 && (
                         <div className="flex items-center justify-between bg-gray-100 p-2 rounded-md w-full mt-2">

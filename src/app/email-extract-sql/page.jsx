@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { saveAs } from "file-saver";
 import Swal from "sweetalert2";
-import { FiUploadCloud, FiDownloadCloud, FiTrash2 } from "react-icons/fi";
+import { FiUploadCloud, FiTrash2 } from "react-icons/fi";
+import { useUser } from "../hooks/useUser";
 
 const EmailExtractorFromSQL = () => {
     const [uploadedFileName, setUploadedFileName] = useState("");
@@ -12,14 +13,24 @@ const EmailExtractorFromSQL = () => {
     const [loading, setLoading] = useState(false);
     const [progress, setProgress] = useState(0);
     const [showResults, setShowResults] = useState(false);
-    const [fileContent, setFileContent] = useState(""); // Store file content properly
+    const [fileContent, setFileContent] = useState("");
     const fileInputRef = useRef(null);
+
+    const { fetchUserById, user } = useUser();
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem("userToken");
+        if (storedUser) {
+            const userId = JSON.parse(atob(storedUser.split(".")[1])).userId;
+            fetchUserById(userId);
+        }
+    }, []);
 
     // Extract Emails from SQL File
     const extractEmails = (text) => {
         const emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g;
         let emails = text.match(emailRegex) || [];
-        emails = [...new Set(emails)]; // Remove duplicates
+        emails = [...new Set(emails)];
 
         const categorizedEmails = {};
         emails.forEach((email) => {
@@ -38,21 +49,70 @@ const EmailExtractorFromSQL = () => {
         const file = event.target.files[0];
         if (!file) return;
 
-        if (file.size > 100 * 1024 * 1024) {
-            Swal.fire({
-                icon: "warning",
-                title: "📂 File Size Limit Reached!",
-                html: `
-                    <p style="font-size:16px;">The uploaded file exceeds the <strong>100MB size limit</strong>.</p>
-                    <p style="font-size:14px; color: #555;">For extracting larger files, reach out to us on:</p>
-                    <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer" 
-                        style="display: inline-block; padding: 10px 15px; background-color: #0088cc; color: #fff; border-radius: 5px; text-decoration: none; font-weight: bold; margin-top:10px;">
-                        📩 Contact on Telegram
-                    </a>
-                `,
-                confirmButtonText: "OK",
-            });
-            return;
+        const isLoggedIn = localStorage.getItem("userToken");
+        const isFreeUser = isLoggedIn && user?.type === "free";
+        const isPaidUser = isLoggedIn && user?.type === "paid";
+
+        const maxSize = !isLoggedIn ? 20 * 1024 * 1024
+            : isFreeUser ? 25 * 1024 * 1024
+                : null;
+
+        if (maxSize && file.size > maxSize) {
+            if (!isLoggedIn) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "📂 File Too Large!",
+                    html: `
+                        <div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                            <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                File Size Limit Exceeded
+                            </p>
+                            <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                The file you've attempted to upload exceeds the <strong style="color: #dc3545;">20MB limit</strong>. Please log in now!
+                            </p>
+                            <a href="/login" 
+                                style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                Log In
+                            </a>
+                        </div>
+                    `,
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = "";
+                    }
+                });
+                return;
+            }
+
+            if (isFreeUser) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "📂 Upgrade Required!",
+                    html: `
+                        <div style="font-family: 'Arial', sans-serif; padding: 20px; background-color: #f8f9fa; border: 1px solid #ddd; border-radius: 8px;">
+                            <p style="font-size: 18px; font-weight: 600; color: #212529; margin-bottom: 8px;">
+                                File Size Limit Exceeded
+                            </p>
+                            <p style="font-size: 15px; color: #495057; margin-bottom: 20px;">
+                                The file you've attempted to upload exceeds the <strong style="color: #dc3545;">25MB limit</strong>. Please contact on Telegram to upgrade for premium plan to get access to unlimited access.
+                            </p>
+                            <a href="https://t.me/ZplusMan" target="_blank" rel="noopener noreferrer"
+                                style="display: inline-block; padding: 12px 24px; background-color: #007bff; color: #ffffff;
+                                border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 14px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                📩 Contact on Telegram
+                            </a>
+                        </div>
+                    `,
+                    confirmButtonText: "OK",
+                }).then(() => {
+                    if (fileInputRef.current) {
+                        fileInputRef.current.value = "";
+                    }
+                });
+                return;
+            }
         }
 
         if (!file.name.endsWith(".sql")) {
@@ -66,7 +126,7 @@ const EmailExtractorFromSQL = () => {
 
         const reader = new FileReader();
         reader.onload = (e) => {
-            setFileContent(e.target.result); // Store the file content for later extraction
+            setFileContent(e.target.result);
             setUploadedFileName(file.name);
             setIsFileUploaded(true);
             setShowResults(false);
