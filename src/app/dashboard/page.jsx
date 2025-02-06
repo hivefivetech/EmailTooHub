@@ -68,7 +68,7 @@ const Dashboard = () => {
         setLoadingPassword(true);
         try {
             const response = await handleChangePassword(user._id, oldPassword, newPassword);
-            Swal.fire("Success", response.message, "success");
+            Swal.fire(response.success ? "Success" : "Error", response.message, response.success ? "success" : "error");
 
             if (response.success) closeModals();
         } finally {
