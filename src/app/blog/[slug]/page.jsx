@@ -6,6 +6,7 @@ import blogs from "../blogsData";
 import Image from "next/image";
 import Link from "next/link";
 import { FaBookmark, FaListUl } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa6";
 
 const BlogPage = () => {
     const { slug } = useParams();
@@ -107,6 +108,7 @@ const BlogPage = () => {
 
                 {/* Table of Contents (Sticky for Desktop, 30% width) */}
                 <div className="hidden lg:block w-[30%]">
+                    {/* <div className="sticky top-28 bg-white p-6 rounded-lg shadow-lg border border-red-200 overflow-y-auto max-h-[80vh]"> */}
                     <div className="sticky top-28 bg-white p-6 rounded-lg shadow-lg border border-red-200">
                         <h3 className="font-bold text-lg mb-3 text-gray-700 flex items-center gap-2">
                             <FaBookmark className="text-accent" />
@@ -158,8 +160,8 @@ const BlogPage = () => {
             {/* Back to Blogs Button */}
             <div className="flex justify-center mt-10 pb-3">
                 <Link href="/blog">
-                    <button className="px-6 py-3 text-lg font-semibold text-white bg-red-600 rounded-lg shadow-md transition-all duration-300 hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                        ← Back to Blogs
+                    <button className="px-4 py-3 flex items-center justify-center gap-2 text-lg font-semibold text-white bg-red-600 rounded-lg shadow-md transition-all duration-300 hover:bg-red-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                        <FaArrowLeft /> Back to Blogs
                     </button>
                 </Link>
             </div>
