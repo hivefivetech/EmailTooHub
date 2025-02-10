@@ -168,6 +168,54 @@ const Base64Encode = () => {
                         ))}
                     </motion.div>
                 )}
+
+                <div className="relative mt-16 mb-10">
+                    <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-blue-500 to-gray-300 rounded-full"></div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl mt-5">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-5">
+                        Base64 Image Encoder – Convert Images to Base64 Instantly
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Need to <b className="text-accent">convert images to Base64 format</b>? Our <b className="text-accent">Base64 Image Encoder </b>
+                        allows you to encode images into <b>Base64 strings</b> for use in <b>HTML, CSS, JSON, XML, JavaScript</b>, and more.
+                        Simply upload an image, and within seconds, get the <b>Base64-encoded output</b> ready for embedding.
+                    </p>
+
+                    <br />
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Base64 encoding is essential for <b>embedding images in web development, data URIs, inline HTML, and API responses</b>.
+                        Whether you need a <b>Base64 string for a website, an email template, a JSON object</b>, or <b>inline CSS styles</b>, this tool generates it
+                        <b> instantly with high accuracy</b>.
+                    </p>
+
+                    <br />
+
+                    <div className="bg-white shadow-md p-6 rounded-lg mt-6 text-left">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">✨ Key Features & Benefits</h3>
+                        <ul className="space-y-3 text-gray-700 text-lg">
+                            <li>✅ <b className="text-green-500">Base64 Image Converter</b> – Instantly convert images to Base64.</li>
+                            <li>✅ <b className="text-green-500">Base64 Encoder for HTML & CSS</b> – Embed images directly into code.</li>
+                            <li>✅ <b className="text-green-500">Convert PNG to Base64</b> – Encode PNG images for easy web usage.</li>
+                            <li>✅ <b className="text-green-500">Convert JPG to Base64</b> – Convert JPG/JPEG images into Base64 encoding.</li>
+                            <li>✅ <b className="text-green-500">Base64 for JSON & XML</b> – Embed images inside JSON or XML APIs.</li>
+                            <li>✅ <b className="text-green-500">Inline Image Encoding</b> – No need to host images externally.</li>
+                            <li>✅ <b className="text-green-500">Base64 for Email Embedding</b> – Use images in email templates.</li>
+                            <li>✅ <b className="text-green-500">Convert GIF to Base64</b> – Encode animated GIFs into Base64.</li>
+                            <li>✅ <b className="text-green-500">Base64 for JavaScript</b> – Store images as Base64 for quick rendering.</li>
+                            <li>✅ <b className="text-green-500">Fastest Base64 Encoder Online</b> – Process images instantly.</li>
+                            <li>✅ <b className="text-green-500">Copy Base64 Code</b> – One-click copying for easy integration.</li>
+                            <li>✅ <b className="text-green-500">Supports PNG, JPG, GIF, SVG & WebP</b> – Compatible with all major image formats.</li>
+                            <li>✅ <b className="text-green-500">Base64 Data URI Generator</b> – Create data URIs for web applications.</li>
+                            <li>✅ <b className="text-green-500">Base64 Decoder</b> – Convert Base64 back to an image.</li>
+                            <li>✅ <b className="text-green-500">Base64 Image Preview</b> – Instantly preview the encoded image.</li>
+                            <li>✅ <b className="text-green-500">Free Base64 Image Encoder</b> – 100% online, no software needed.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     );

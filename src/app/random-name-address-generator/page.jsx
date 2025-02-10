@@ -130,6 +130,59 @@ const RandomNameAddressGenerator = () => {
                         </div>
                     </div>
                 )}
+
+                <div className="relative mt-16 mb-10">
+                    <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-blue-500 to-gray-300 rounded-full"></div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl mt-5">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-5">
+                        Random Name & Address Generator – Unlimited Unique Names & Addresses
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Need a <b className="text-accent">random name and address</b>? Our <b className="text-accent">Random Name & Address Generator </b>
+                        allows you to generate <b>unlimited unique names and addresses</b> instantly. Whether you need <b>fake names for testing,
+                            anonymous identities, or sample addresses</b>, this tool provides <b>realistic and randomly generated data</b>.
+                    </p>
+
+                    <br />
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Generate names and addresses for <b>testing applications, databases, form filling, or fictional characters</b>.
+                        Perfect for <b>developers, marketers, writers, and businesses</b>. Each generated result includes <b>full name and full address</b>.
+                    </p>
+
+                    <br />
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        No need for manual input—simply click <b>Generate</b>, and instantly get a <b>realistic random name and address</b>.
+                    </p>
+
+                    <br />
+
+                    <div className="bg-white shadow-md p-6 rounded-lg mt-6 text-left">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">✨ Key Features & Benefits</h3>
+                        <ul className="space-y-3 text-gray-700 text-lg">
+                            <li>✅ <b className="text-green-500">Free random address generator online</b> – Instant unique results every time.</li>
+                            <li>✅ <b className="text-green-500">Fake name generator</b> – Create realistic names for testing & privacy.</li>
+                            <li>✅ <b className="text-green-500">Unlimited name generation</b> – No restrictions, generate as many as needed.</li>
+                            <li>✅ <b className="text-green-500">Random address generator</b> – Get street address, city, state, ZIP, and country.</li>
+                            <li>✅ <b className="text-green-500">Anonymous identity generator</b> – Perfect for security, anonymity, and testing.</li>
+                            <li>✅ <b className="text-green-500">Fake address for testing</b> – Use sample addresses in software testing.</li>
+                            <li>✅ <b className="text-green-500">Bulk name and address generator</b> – Export CSV or TXT files for bulk data.</li>
+                            <li>✅ <b className="text-green-500">Free random name generator online</b> – Instant unique results every time.</li>
+                            <li>✅ <b className="text-green-500">Realistic name generator</b> – Creates human-like names with different cultures.</li>
+                            <li>✅ <b className="text-green-500">Customizable random data</b> – Generate names with specific regions or criteria.</li>
+                            <li>✅ <b className="text-green-500">Fictional name generator</b> – Perfect for book writers, gamers, and roleplay.</li>
+                            <li>✅ <b className="text-green-500">Random full name & address</b> – Ready for form filling, test databases, and mock data.</li>
+                            <li>✅ <b className="text-green-500">Fake identity generator</b> – Generate random personas for security.</li>
+                            <li>✅ <b className="text-green-500">Generate random names & addresses</b> – Instant unique results every time.</li>
+                            <li>✅ <b className="text-green-500">Test data generator</b> – Ideal for developers and testers.</li>
+                            <li>✅ <b className="text-green-500">Fastest name & address generator</b> – Instant results with a single click.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     );
