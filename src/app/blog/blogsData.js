@@ -869,7 +869,7 @@ const blogs = [
                     <p>Similar to our <b>regular deliverability tests</b> we run for a range of different email marketing providers. This testing tool allows us to send test emails to a seed list of more than 20 international mailbox providers such as Gmail, Outlook and Yahoo. Glockapps then automatically analyzes where the emails arrived correctly, where they didn't arrive at all and which email clients moved them into the spam folder. It also looks at the <b>server reputation, authentication</b> <i>(DMARC, DKIM and SPF)</i> and whether it appears on any blacklists.</p>
                    
                     <div class="relative mt-6 p-6 border-2 border-gray-200 bg-gray-100 rounded-xl text-center shadow-lg transition-all duration-300 hover:border-red-500 hover:bg-red-50">
-                        <h3 class="text-2xl font-bold text-gray-900 mb-4">🚀 Meet JetStream Mailer</h3>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-4">🚀 JetStream Mailer</h3>
                         
                         <p class="text-gray-700 leading-relaxed">
                             <b class="text-accent">JetStream Mailer</b> is the ultimate solution for email professionals, offering 

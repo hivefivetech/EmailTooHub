@@ -343,6 +343,43 @@ const EmailSplitter = () => {
                             })}
                     </div>
                 )}
+
+                <div className="relative mt-16 mb-10">
+                    <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-blue-500 to-gray-300 rounded-full"></div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl mt-5">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-5">
+                        Email Splitter – Organize & Separate Email Lists Effortlessly
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Need to <b className="text-accent">split large email lists</b> into smaller, <b>organized segments</b>?
+                        Our <b className="text-accent">Email Splitter</b> allows you to <b>divide emails by batch size</b>.
+                        Just <b>upload your email file</b>, set your <b>desired split size</b>, and get structured email lists <b>ready for campaigns</b>.
+                    </p>
+
+                    <br />
+
+                    <div className="bg-white shadow-md p-6 rounded-lg mt-6 text-left">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">✨ Key Features & Benefits</h3>
+                        <ul className="space-y-3 text-gray-700 text-lg">
+                            <li>✅ <b className="text-green-500">Email separator</b> - Divide emails into smaller groups.</li>
+                            <li>✅ <b className="text-green-500">Batch email separation</b> - Choose custom split sizes (e.g., 100, 500, 1000 emails).</li>
+                            <li>✅ <b className="text-green-500">Email list organizer</b> - Clean, format, and sort email addresses instantly.</li>
+                            <li>✅ <b className="text-green-500">Free mailing list splitter</b> - Split mails into custom size batches.</li>
+                            <li>✅ <b className="text-green-500">Email separator online free</b> - Divide emails into organized groups.</li>
+                            <li>✅ <b className="text-green-500">Free email separator online</b> - No software installation required.</li>
+                            <li>✅ <b className="text-green-500">Bulk email splitter</b> - Handles thousands of emails efficiently.</li>
+                            <li>✅ <b className="text-green-500">Fastest email sorting tool</b> - Instantly separates large email files.</li>
+                            <li>✅ <b className="text-green-500">Export split lists in CSV or TXT</b> - Ready for marketing & outreach.</li>
+                            <li>✅ <b className="text-green-500">Split large email lists free online</b> - Divide emails into smaller, organized groups.</li>
+                            <li>✅ <b className="text-green-500">Custom email group creator</b> - Organize emails into categories.</li>
+                            <li>✅ <b className="text-green-500">Best email splitter online</b> - Fast, accurate, and easy to use.</li>
+                            <li>✅ <b className="text-green-500">Split large email lists</b> - Divide emails into organized batches.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     );

@@ -424,6 +424,57 @@ const EmailExtractor = () => {
                         </div>
                     </div>
                 )}
+
+                <div className="relative mt-16 mb-10">
+                    <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-blue-500 to-gray-300 rounded-full"></div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl mt-5">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-5">
+                        Email Extractor – Extract Emails Instantly
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Need a <b className="text-accent">simple and efficient email extractor</b>? Upload a <b>TXT file</b>, and our tool will
+                        instantly extract all <b>valid email addresses</b>. Whether it's a list of mixed text, a document, or raw data, our
+                        <b>smart email filtering</b> ensures you get only <b>clean, duplicate-free emails</b>.
+                    </p>
+
+                    <br />
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        The <b className="text-accent">fastest way</b> to extract emails without manual effort! Just upload, process, and download
+                        your email list as in text or csv file. Supports extraction from <b>any domain</b>, making it perfect for <b>lead generation, email marketing,
+                            and business outreach</b>.
+                    </p>
+
+                    <br />
+
+                    <div className="bg-white shadow-md p-6 rounded-lg mt-6 text-left">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">✨ Key Features & Benefits</h3>
+                        <ul className="space-y-3 text-gray-700 text-lg">
+                            <li>✅ <b className="text-green-500">Free online email extractor</b> - Extract emails instantly with ease.</li>
+                            <li>✅ <b className="text-green-500">Extract emails from text files</b> - No manual work required.</li>
+                            <li>✅ <b className="text-green-500">Extract any email address free</b> - Works with any text or file.</li>
+                            <li>✅ <b className="text-green-500">Best email extractor online</b> - Fast, accurate, and easy to use.</li>
+                            <li>✅ <b className="text-green-500">Email address extractor</b> - Extracts emails from multiple sources.</li>
+                            <li>✅ <b className="text-green-500">Email extractor software online</b> - Automates email extraction with ease.</li>
+                            <li>✅ <b className="text-green-500">Extract emails from text and files</b> - No manual work required.</li>
+                            <li>✅ <b className="text-green-500">Free email extractor online</b> - Extract emails instantly with ease.</li>
+                            <li>✅ <b className="text-green-500">Email address extractor</b> - Quickly gathers emails from different formats.</li>
+                            <li>✅ <b className="text-green-500">Best bulk email scraper</b> - Perfect for marketers, businesses, and researchers.</li>
+                            <li>✅ <b className="text-green-500">Email extractor tool</b> - Simple, fast, and reliable for all needs.</li>
+                            <li>✅ <b className="text-green-500">Fastest email extractor</b> - Extracts thousands of emails in seconds.</li>
+                            <li>✅ <b className="text-green-500">Email scraper</b> - Extracts email addresses efficiently.</li>
+                            <li>✅ <b className="text-green-500">Extract email online</b> - Extracts and organizes email lists effortlessly.</li>
+                            <li>✅ <b className="text-green-500">Extract emails from txt files online</b> - No manual work required.</li>
+                            <li>✅ <b className="text-green-500">Extract email addresses in bulk</b> - Ideal for high-volume email marketing.</li>
+                            <li>✅ <b className="text-green-500">Best email extractor</b> - Accurate, efficient, and user-friendly.</li>
+                            <li>✅ <b className="text-green-500">Bulk email extractor</b> - Extracts large lists effortlessly.</li>
+                            <li>✅ <b className="text-green-500">Extract email addresses for free</b> - No cost, no limitations.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     );

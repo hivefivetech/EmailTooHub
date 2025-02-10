@@ -175,7 +175,7 @@ const EmailDomainRemover = () => {
                 <TbMedicalCross className="w-full h-full" />
             </motion.div>
 
-            <div className="container mx-auto max-w-3xl p-6 bg-white shadow-lg rounded-xl mt-20 z-10">
+            <div className="container mx-auto max-w-3xl p-6 bg-white shadow-lg rounded-xl mt-24 z-10">
                 <motion.h2
                     variants={fadeIn("down", 0.2)}
                     initial="hidden"
@@ -312,6 +312,42 @@ const EmailDomainRemover = () => {
                         </div>
                     </div>
                 )}
+
+                <div className="relative mt-16 mb-10">
+                    <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-blue-500 to-gray-300 rounded-full"></div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl mt-5">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-5">
+                        Email Domain Filter – Remove & Sort Emails by Domain
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Need to <b className="text-accent">filter email addresses by domain</b>? Our <b className="text-accent">Email Domain Filter </b>
+                        allows you to <b>remove unwanted domains</b>, keep only specific email providers, or segment email lists by domain type.
+                        Upload your list and instantly refine it with <b>precise domain filtering</b>.
+                    </p>
+
+                    <br />
+
+                    <div className="bg-white shadow-md p-6 rounded-lg mt-6 text-left">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">✨ Key Features & Benefits</h3>
+                        <ul className="space-y-3 text-gray-700 text-lg">
+                            <li>✅ <b className="text-green-500">Filter emails by domain</b> - Keep or remove specific domains instantly.</li>
+                            <li>✅ <b className="text-green-500">Remove unwanted email domains</b> - Delete temporary or spam-prone providers.</li>
+                            <li>✅ <b className="text-green-500">Sort emails by provider</b> - Separate Gmail, Yahoo, Outlook, and custom domains.</li>
+                            <li>✅ <b className="text-green-500">Bulk email domain filter</b> - Process thousands of emails in seconds.</li>
+                            <li>✅ <b className="text-green-500">Free email list filter</b> - No software installation required.</li>
+                            <li>✅ <b className="text-green-500">Email blacklist remover</b> - Exclude blacklisted or spam-trap domains.</li>
+                            <li>✅ <b className="text-green-500">Domain-specific email segmentation</b> - Categorize emails for targeted outreach.</li>
+                            <li>✅ <b className="text-green-500">Export refined lists in CSV or TXT</b> - Ready for marketing & outreach.</li>
+                            <li>✅ <b className="text-green-500">Best email domain filter online</b> - Fast, accurate, and easy to use.</li>
+                            <li>✅ <b className="text-green-500">Organize emails by business or personal domains</b> - Enhance targeting.</li>
+                            <li>✅ <b className="text-green-500">Custom domain removal tool</b> - Instantly refine email lists.</li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
 
             {/* Loader CSS */}

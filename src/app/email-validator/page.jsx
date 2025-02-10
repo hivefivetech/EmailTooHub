@@ -452,7 +452,7 @@ const EmailAddressValidator = () => {
             className="section flex flex-wrap items-center justify-center bg-gradient-to-b from-[#f9fafb] to-[#e5e7eb] py-12 sm:py-16 md:py-20 min-h-screen h-auto"
             id="emailvalidator"
         >
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mt-20">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mt-24">
                 <motion.h1
                     variants={fadeIn("down", 0.2)}
                     initial="hidden"
@@ -646,6 +646,58 @@ const EmailAddressValidator = () => {
                         </div>
                     </div>
                 )}
+
+                <div className="relative mt-16 mb-10">
+                    <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-blue-500 to-gray-300 rounded-full"></div>
+                </div>
+
+                <div className="p-8 bg-gradient-to-br from-gray-50 to-gray-200 rounded-xl shadow-xl text-center transition-all duration-300 hover:shadow-2xl mt-5">
+                    <h2 className="text-3xl font-extrabold text-gray-900 mb-5">
+                        Email Validator – Verify Emails Instantly
+                    </h2>
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Want to check if an email address is valid? Use our <b className="text-accent">free email validator</b> to instantly verify
+                        <b>deliverability, domain status</b>, and <b>spam detection</b>. Simply upload a <b>Text</b> or a <b>CSV/Txt file</b>,
+                        and our tool will clean and validate every entry with <b>99% accuracy</b>.
+                    </p>
+
+                    <br />
+
+                    <p className="text-gray-700 leading-relaxed text-lg">
+                        Say goodbye to <b className="text-accent">bounced emails</b> and low <b>email deliverability rates</b>.
+                        Our advanced email checker detects <b>fake, invalid, temporary, and disposable emails</b>,
+                        ensuring your marketing and transactional emails reach the right inbox.
+                    </p>
+
+                    <br />
+
+                    <div className="bg-white shadow-md p-6 rounded-lg mt-6 text-left">
+                        <h3 className="text-xl font-semibold text-gray-900 mb-4">✨ Key Features & Benefits</h3>
+                        <ul className="space-y-3 text-gray-700 text-lg">
+                            <li>✅ <b className="text-green-500">Free email validator online</b> - Verify emails instantly.</li>
+                            <li>✅ <b className="text-green-500">Free email verifier and email checker</b> - Check and verify emails instantly.</li>
+                            <li>✅ <b className="text-green-500">Free email address validator</b> - Verify email addresses instantly.</li>
+                            <li>✅ <b className="text-green-500">Bulk email validation</b> - Upload and check thousands of emails at once.</li>
+                            <li>✅ <b className="text-green-500">Bulk email list cleaning</b> - Upload and verify all emails at once.</li>
+                            <li>✅ <b className="text-green-500">Best email verification tool</b> - Fast, accurate, and easy to use.</li>
+                            <li>✅ <b className="text-green-500">Email checker</b> - Detect and remove temporary emails.</li>
+                            <li>✅ <b className="text-green-500">Email list cleaning</b> - Detect and remove temporary or duplicate emails.</li>
+                            <li>✅ <b className="text-green-500">Email validation</b> - Ensures correct email formatting.</li>
+                            <li>✅ <b className="text-green-500">Free email verifier online</b> - Verify emails instantly.</li>
+                            <li>✅ <b className="text-green-500">Domain & MX record check</b> - Confirms if the domain can receive emails.</li>
+                            <li>✅ <b className="text-green-500">Spam trap detection</b> - Avoids blacklisted and suspicious emails.</li>
+                            <li>✅ <b className="text-green-500">Real-time email verification</b> - Checks emails before sending.</li>
+                            <li>✅ <b className="text-green-500">Email blacklist checker</b> - Identifies high-risk email addresses.</li>
+                            <li>✅ <b className="text-green-500">SMTP email validation</b> - Confirms email address existence.</li>
+                            <li>✅ <b className="text-green-500">Fake email detection</b> - Identifies bogus email addresses.</li>
+                            <li>✅ <b className="text-green-500">Online email checker</b> - No software installation required.</li>
+                            <li>✅ <b className="text-green-500">High-accuracy validation</b> - 99% precision in email verification.</li>
+                            <li>✅ <b className="text-green-500">Email validator</b> - Validate emails instantly.</li>
+                            <li>✅ <b className="text-green-500">Export verified emails to CSV or Txt</b> - Clean and ready-to-use email lists.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
     );
