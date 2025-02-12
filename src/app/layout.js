@@ -34,6 +34,11 @@ export default function RootLayout({ children }) {
               gtag('config', 'G-EWDYDJLEC2');
             `}
           </Script>
+          <Script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0953680178451901"
+            crossOrigin="anonymous"
+          />
         </head>
         <body className={inter.className}>
           <CustomCursor />

@@ -45,6 +45,10 @@ const services = [
         link: "/email-extract-sql",
     },
     {
+        name: "HTML to Any Converter",
+        link: "/html-to-any",
+    },
+    {
         name: "Random Name & Address Generator",
         link: "/random-name-address-generator",
     },
@@ -112,7 +116,7 @@ const Footer = () => {
                     {/* Services List */}
                     <div>
                         <h3 className="text-lg font-bold text-white mb-6">Our Services</h3>
-                        <ul className="flex flex-col gap-y-4">
+                        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4">
                             {services.map((service, index) => (
                                 <li key={index}>
                                     <a

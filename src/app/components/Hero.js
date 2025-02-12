@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
 import { SearchContext } from "../context/Search";
 import Search from "./Search";
-import { TbMedicalCross } from "react-icons/tb";
+import { TbFileTypeHtml, TbMedicalCross } from "react-icons/tb";
 import { MdOutlineEmail, MdDesignServices, MdMarkEmailRead } from "react-icons/md";
 import { IoMdMailUnread, IoIosMailOpen } from "react-icons/io";
 import { FaRandom } from "react-icons/fa";
@@ -68,6 +68,12 @@ const services = [
     icon: <FaDatabase className="text-5xl text-accent" />,
     link: "/email-extract-sql",
     description: "Extract and manage email lists efficiently using SQL-based filtering and cleaning processes.",
+  },
+  {
+    name: "HTML to Any Converter",
+    icon: <TbFileTypeHtml className="text-5xl text-accent" />,
+    link: "/html-to-any",
+    description: "Convert HTML to JPG, PNG, PDF and more with one-click processing.",
   },
   {
     name: "Randome Name & Address Generator",
