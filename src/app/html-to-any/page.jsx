@@ -113,6 +113,17 @@ const HtmlToAny = () => {
                     HTML to Any Converter
                 </motion.h2>
 
+                {/* Under Construction Notice */}
+                <motion.div
+                    variants={fadeIn("down", 0.3)}
+                    initial="hidden"
+                    whileInView={"show"}
+                    viewport={{ once: true, amount: 0.6 }}
+                    className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 mb-6 rounded-lg text-lg"
+                >
+                    🚧 This feature is currently under construction. Some conversions may not work as expected. Stay tuned for updates!
+                </motion.div>
+
                 <motion.p
                     variants={fadeIn("down", 0.4)}
                     initial="hidden"

@@ -7,7 +7,7 @@ export const convertHtmlToJpg = async (file) => {
 
     const response = await apiClient.post("/conversion/html-to-jpg", formData, {
         headers: { "Content-Type": "multipart/form-data" },
-        responseType: "blob", // Ensure response is treated as binary
+        responseType: "blob",
     });
 
     return new Blob([response.data], { type: "image/jpeg" });
