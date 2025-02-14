@@ -45,6 +45,14 @@ const services = [
         link: "/email-extract-sql",
     },
     {
+        name: "Email Permutator",
+        link: "/email-permutator",
+    },
+    {
+        name: "Spam Checker",
+        link: "/spam-checker",
+    },
+    {
         name: "HTML to Any Converter",
         link: "/html-to-any",
     },

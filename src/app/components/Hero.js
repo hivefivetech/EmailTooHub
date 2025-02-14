@@ -6,9 +6,9 @@ import { fadeIn } from "../../../variants";
 import { SearchContext } from "../context/Search";
 import Search from "./Search";
 import { TbFileTypeHtml, TbMedicalCross } from "react-icons/tb";
-import { MdOutlineEmail, MdDesignServices, MdMarkEmailRead } from "react-icons/md";
+import { MdOutlineEmail, MdDesignServices, MdMarkEmailRead, MdOutlineReportGmailerrorred } from "react-icons/md";
 import { IoMdMailUnread, IoIosMailOpen } from "react-icons/io";
-import { FaRandom } from "react-icons/fa";
+import { FaExchangeAlt, FaRandom } from "react-icons/fa";
 import { FaRegImages, FaRegEnvelope, FaDatabase } from "react-icons/fa6";
 
 export const metadata = {
@@ -69,6 +69,18 @@ const services = [
     link: "/email-extract-sql",
     description: "Extract and manage email lists efficiently using SQL-based filtering and cleaning processes.",
   },
+  {
+    name: "Email Permutator",
+    icon: <FaExchangeAlt className="text-5xl text-accent" />,
+    link: "/email-permutator",
+    description: "Generate multiple variations of email addresses based on names and domains for outreach and discovery.",
+  },
+  {
+    name: "Spam Checker",
+    icon: <MdOutlineReportGmailerrorred className="text-5xl text-accent" />, 
+    link: "/spam-checker",
+    description: "Analyze emails to detect spam likelihood and improve email deliverability.",
+  },  
   {
     name: "HTML to Any Converter",
     icon: <TbFileTypeHtml className="text-5xl text-accent" />,
