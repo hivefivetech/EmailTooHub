@@ -76,7 +76,7 @@ const BlogPage = () => {
                                 </div>
 
                                 <div className="p-5 flex flex-col flex-grow">
-                                    <h3 className="text-2xl font-semibold text-gradient from-red-600 to-red-500 group-hover:text-red-700 transition-colors duration-200 relative">
+                                    <h3 className="text-2xl font-semibold text-gradient from-red-600 to-red-500 group-hover:text-red-700 transition-colors duration-300 relative">
                                         {blog.title}
                                         <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-red-500 transition-all duration-300 group-hover:w-full"></span>
                                     </h3>
