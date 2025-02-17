@@ -2211,7 +2211,7 @@ const blogs = [
                                 📌 <b>Visit:</b> <a href="https://jetstreammailer.in" target="_blank" class="text-blue-600 font-bold hover:underline">JetStream Mailer</a>  
                             </p>
                             <p class="text-gray-800 text-lg">
-                                🛒 <b>Buy Now:</b> <a href="https://ZplusMan" target="_blank" class="text-green-600 font-bold hover:underline">Get JetStream Mailer</a>  
+                                🛒 <b>Buy Now:</b> <a href="https://t.me/ZplusMan" target="_blank" class="text-green-600 font-bold hover:underline">Get JetStream Mailer</a>  
                             </p>
                             <p class="mt-4 text-gray-800 text-lg font-semibold">
                                 Don’t let your emails go to waste – <b>Supercharge your email marketing with JetStream Mailer today!</b>  
@@ -2806,10 +2806,10 @@ const blogs = [
                                 <li><b>✅ Optimized for Cold Emails & Marketing</b> – Maximize your outreach potential.</li>
                             </ul>
                             <p class="mt-5 text-gray-800 text-lg">
-                                📌 <b>Visit:</b> <a href="https://jetstreammailer.in" target="_blank" class="text-blue-600 font-bold hover:underline">JetStream Mailer</a>  
+                                📌 <b>Visit:</b> <a href="https://jetstreammailer.in/" target="_blank" class="text-blue-600 font-bold hover:underline">JetStream Mailer</a>  
                             </p>
                             <p class="text-gray-800 text-lg">
-                                🛒 <b>Buy Now:</b> <a href="https://ZplusMan" target="_blank" class="text-green-600 font-bold hover:underline">Get JetStream Mailer</a>  
+                                🛒 <b>Buy Now:</b> <a href="https://t.me/ZplusMan" target="_blank" class="text-green-600 font-bold hover:underline">Get JetStream Mailer</a>  
                             </p>
                             <p class="mt-4 text-gray-800 text-lg font-semibold">
                                 Don’t let your emails go to waste – <b>Supercharge your email marketing with JetStream Mailer today!</b>  
@@ -2908,7 +2908,7 @@ const blogs = [
                             <div class="mt-6 space-y-6">
                                 <!-- Inbox Checker (EmailToolHub) -->
                                 <div class="p-5 border-l-4 border-red-600 bg-gray-100 rounded-lg shadow-sm hover:bg-red-50 duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#1 Inbox Checker – The Ultimate Inbox Testing Tool</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#1 <a class="text-red-500 duration-300 hover:text-red-700" href="https://inbox-checker.emailtoolhub.com/" target="_blank">Inbox Checker</a> – The Ultimate Inbox Testing Tool</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         <b>Inbox Checker by EmailToolHub</b> is the <b>most powerful inbox testing tool</b>, providing detailed insights into <b>whether your email lands in the inbox or spam folder</b>.  
                                         It offers <b>real-time testing</b> across <b>7 Gmail, 2 Yahoo, 2 Yandex, 3 Zoho, and 1 AOL accounts</b>, making it the <b>most comprehensive inbox placement checker</b> available.
@@ -2921,7 +2921,7 @@ const blogs = [
 
                                 <!-- Email on Acid -->
                                 <div class="p-5 border-l-4 border-blue-600 bg-gray-100 rounded-lg shadow-sm hover:bg-blue-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#2 Email on Acid – The Collaboration Champion</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#2 <a class="text-blue-500 duration-300 hover:text-blue-700" href="https://www.emailonacid.com" target="_blank">Email on Acid</a> – The Collaboration Champion</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         Email on Acid excels in <b>team collaboration</b>, offering <b>approval workflows</b> and <b>accessibility testing</b>.  
                                         It ensures your emails are <b>optimized for readability and inclusivity</b>, making it ideal for brands that prioritize UX.
@@ -2930,7 +2930,7 @@ const blogs = [
 
                                 <!-- GlockApps -->
                                 <div class="p-5 border-l-4 border-green-600 bg-gray-100 rounded-lg shadow-sm hover:bg-green-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#3 GlockApps – The Deliverability Detective</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#3 <a class="text-green-500 duration-300 hover:text-green-700" href="https://glockapps.com" target="_blank">GlockApps</a> – The Deliverability Detective</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         GlockApps provides <b>deep deliverability insights</b>, including <b>real-time spam testing</b> and <b>blacklist monitoring</b>.  
                                         Its <b>DMARC analytics</b> and <b>IP reputation tracking</b> make it an essential tool for <b>high-volume email senders</b>.
@@ -2939,7 +2939,7 @@ const blogs = [
 
                                 <!-- Inbox Inspector -->
                                 <div class="p-5 border-l-4 border-yellow-600 bg-gray-100 rounded-lg shadow-sm hover:bg-yellow-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#4 Inbox Inspector – The Budget-Friendly Option</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#4 <a class="text-yellow-500 duration-300 hover:text-yellow-700" href="https://www.mailmodo.com/resources/email-testing-tools/inbox-inspector/" target="_blank">Inbox Inspector</a> – The Budget-Friendly Option</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         A great <b>free inbox testing tool</b> that provides <b>basic preview testing</b> across major email clients.  
                                         While it lacks <b>advanced analytics</b>, it’s perfect for <b>small businesses and solopreneurs</b> looking for a no-cost solution.
@@ -2948,7 +2948,7 @@ const blogs = [
 
                                 <!-- SendForensics -->
                                 <div class="p-5 border-l-4 border-purple-600 bg-gray-100 rounded-lg shadow-sm hover:bg-purple-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#5 SendForensics – The Analytics Powerhouse</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#5 <a class="text-purple-500 duration-300 hover:text-purple-700" href="https://www.sendforensics.com" target="_blank">SendForensics</a> – The Analytics Powerhouse</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         With <b>advanced deliverability analytics</b>, <b>predictive scoring</b>, and <b>insightful reports</b>,  
                                         SendForensics helps businesses <b>optimize their email strategy before sending</b>.
@@ -2957,7 +2957,7 @@ const blogs = [
 
                                 <!-- Mailosaur -->
                                 <div class="p-5 border-l-4 border-orange-600 bg-gray-100 rounded-lg shadow-sm hover:bg-orange-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#6 Mailosaur – The Automation Expert</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#6 <a class="text-orange-500 duration-300 hover:text-orange-700" href="https://mailosaur.com" target="_blank">Mailosaur</a> – The Automation Expert</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         A <b>fully automated email testing solution</b> with powerful <b>APIs and CI/CD integration</b>.  
                                         Ideal for <b>development teams</b> implementing continuous testing workflows.
@@ -2966,7 +2966,7 @@ const blogs = [
 
                                 <!-- Mail-tester -->
                                 <div class="p-5 border-l-4 border-gray-600 bg-gray-100 rounded-lg shadow-sm hover:bg-gray-200 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#7 Mail-tester – The Simplicity Champion</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#7 <a class="text-gray-500 duration-300 hover:text-gray-700" href="https://www.mail-tester.com" target="_blank">Mail-tester</a> – The Simplicity Champion</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         A <b>quick and free spam score testing tool</b> that provides <b>instant analysis</b>  
                                         to help improve <b>email deliverability</b> in a straightforward way.
@@ -2975,7 +2975,7 @@ const blogs = [
 
                                 <!-- Mailtrap -->
                                 <div class="p-5 border-l-4 border-teal-600 bg-gray-100 rounded-lg shadow-sm hover:bg-teal-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#8 Mailtrap – The Developer’s Choice</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#8 <a class="text-teal-500 duration-300 hover:text-teal-700" href="https://mailtrap.io" target="_blank">Mailtrap</a> – The Developer’s Choice</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         <b>Mailtrap</b> provides a <b>secure testing environment</b> for staging and development,  
                                         preventing accidental emails from reaching real users while ensuring proper email functionality.
@@ -2987,7 +2987,7 @@ const blogs = [
 
                                 <!-- Mailgun Validate -->
                                 <div class="p-5 border-l-4 border-indigo-600 bg-gray-100 rounded-lg shadow-sm hover:bg-indigo-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#9 Mailgun Validate – The List Hygiene Expert</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#9 <a class="text-indigo-500 duration-300 hover:text-indigo-700" href="https://www.mailgun.com/products/validate/" target="_blank">Mailgun Validate</a> – The List Hygiene Expert</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         <b>Mailgun Validate</b> helps keep your email list clean with <b>real-time email validation</b> and  
                                         <b>risk assessment for email addresses</b>, reducing bounce rates and improving deliverability.
@@ -2999,7 +2999,7 @@ const blogs = [
 
                                 <!-- Mailjet A/B Testing -->
                                 <div class="p-5 border-l-4 border-pink-600 bg-gray-100 rounded-lg shadow-sm hover:bg-pink-50 transition-all duration-300">
-                                    <h2 class="text-xl font-semibold text-gray-900">#10 Mailjet A/B Testing – The Optimization Specialist</h2>
+                                    <h2 class="text-xl font-semibold text-gray-900">#10 <a class="text-pink-500 duration-300 hover:text-pink-700" href="https://www.mailjet.com" target="_blank">Mailjet</a> A/B Testing – The Optimization Specialist</h2>
                                     <p class="mt-3 text-gray-800 leading-relaxed">
                                         <b>Mailjet’s A/B testing</b> allows marketers to <b>test up to 10 different email variants</b> simultaneously,  
                                         optimizing subject lines, CTAs, and content layouts for maximum engagement.
@@ -3123,7 +3123,7 @@ const blogs = [
                         <p class="mt-4 text-gray-800 leading-relaxed">
                             But <b>testing alone isn’t enough</b>—you also need a high-performance email-sending platform  
                             to execute campaigns at scale with <b>maximum inbox placement</b>.  
-                            <b><a href="http://jetstreammailer.in/" target="_blank" class="text-red-600 hover:underline">JetStream Mailer</a></b>  
+                            <b><a href="https://jetstreammailer.in/" target="_blank" class="text-red-600 hover:underline">JetStream Mailer</a></b>  
                             is the <b>ultimate email-sending tool</b>, capable of delivering <b>infinite emails</b>  
                             with an impressive <b>90%+ inboxing rate</b>.  
                             To get access, reach out via <b>ZPlusMan on Telegram</b>.
@@ -3133,7 +3133,7 @@ const blogs = [
                             <a href="https://emailtoolhub.com/" target="_blank" class="bg-red-600 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-red-700 transition-all duration-300">
                                 🌐 Explore More on EmailToolHub
                             </a>
-                            <a href="http://jetstreammailer.in/" target="_blank" class="bg-gray-900 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition-all duration-300">
+                            <a href="https://jetstreammailer.in/" target="_blank" class="bg-gray-900 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-gray-800 transition-all duration-300">
                                 ⚡ Get JetStream Mailer Now
                             </a>
                         </div>
