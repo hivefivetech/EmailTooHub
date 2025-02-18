@@ -3,109 +3,79 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../../variants";
+import { useSpamChecker } from "../hooks/useSpamChecker";
 
 const SpamChecker = () => {
-    const [inputText, setInputText] = useState("");
-    const [spamCounts, setSpamCounts] = useState({
-        urgency: 0,
-        shady: 0,
-        overpromise: 0,
-        unnatural: 0,
-        authority: 0,
-    });
+    const [subject, setSubject] = useState("");
+    const [body, setBody] = useState("");
+    const { checkSpam, result, loading, error } = useSpamChecker();
+    const [highlightedText, setHighlightedText] = useState("");
+    const [spamScore, setSpamScore] = useState(0);
+    const [suggestions, setSuggestions] = useState([]);
     const [wordCount, setWordCount] = useState(0);
     const [letterCount, setLetterCount] = useState(0);
     const [readTime, setReadTime] = useState("0 sec");
-    const [highlightedText, setHighlightedText] = useState("");
 
-    const spamIndicators = {
-        urgency: {
-            words: [
-                "ASAP", "urgent", "act now", "immediate response", "limited time", "don't miss out", "expires soon", "last chance", "hurry", "final call", "time-sensitive", "rush", "today only", "now or never", "closing soon", "instant access", "final hours", "while supplies last", "only a few left", "offer expires"
-            ],
-            color: "text-red-500 bg-red-100 px-1 rounded"
-        },
-        shady: {
-            words: [
-                "privately owned funds", "financial consultant", "risk-free", "no catch", "no hidden costs", "no hidden fees", "no gimmick", "no obligation", "no credit check", "no fees", "no cost", "no credit card required", "eliminate debt", "credit card debt", "consolidate your debt", "pre-approved loan", "easy money", "get rich quick", "double your money", "unclaimed funds", "unclaimed prize", "claim your prize", "life-changing opportunity", "congratulations", "you've won", "winner", "prize", "prizes", "bonus", "exclusive deal", "exclusive offer", "limited offer", "special offer", "best price", "clearance", "discount", "sale", "mega sale", "all-new", "member", "unbelievable results", "fantastic deal", "drastically reduced", "outstanding values", "promise you", "real thing", "satisfaction guaranteed"
-            ],
-            color: "text-pink-500 bg-pink-100 px-1 rounded"
-        },
-        overpromise: {
-            words: [
-                "100% free", "guaranteed", "risk-free", "no catch", "no hidden cost", "promise you", "satisfaction guaranteed", "money-back guarantee", "get rich quick", "earn extra cash", "make money fast", "double your money", "unbelievable results", "fantastic deal", "drastically reduced", "outstanding values", "real thing", "winner", "prize", "prizes", "bonus", "exclusive deal", "exclusive offer", "limited offer", "special offer", "best price", "clearance", "discount", "sale", "mega sale", "all-new", "amazing", "certified", "congratulations", "it's effective", "risk-free trial", "free sample", "free gift", "free access", "free consultation", "free info", "free membership", "free preview", "free quote", "free trial", "free website", "no obligation", "no purchase necessary", "no questions asked", "no strings attached", "zero cost", "zero obligation", "zero risk"
-            ],
-            color: "text-yellow-500 bg-yellow-100 px-1 rounded"
-        },
-        unnatural: {
-            words: [
-                "Dear friend", "beloved", "lucky winner", "dear customer", "dear valued customer", "greetings", "greetings friend", "greetings from", "attention required",
-                "important notice", "important information", "urgent request", "urgent action required",
-                "notification regarding", "notice of", "alert regarding", "update on your account",
-                "reminder for", "confirmation needed", "verification required", "validate your account",
-                "authorize this transaction", "acknowledge receipt", "invoice for your order",
-                "billing update", "payment overdue", "transaction alert", "shipment tracking",
-                "delivery confirmation", "membership renewal", "account suspension", "service interruption",
-                "support ticket update", "assistance required", "help request", "critical update",
-                "unusual activity detected", "security warning", "final reminder", "last warning",
-                "act fast", "your attention needed", "your response required", "reply immediately",
-                "please confirm", "click to verify", "click to activate", "click to restore access",
-                "failure to respond", "action needed now", "resolve this issue", "sensitive information update"
-            ],
-            color: "text-blue-500 bg-blue-100 px-1 rounded"
-        },
-        authority: {
-            words: [
-                "IRS", "Internal Revenue Service", "FBI", "Federal Bureau of Investigation", "Government agency",
-                "Your account has been suspended", "your account will be closed", "legal action", "court order",
-                "warrant for your arrest", "your social security number", "your credit card has been blocked",
-                "your bank account has been compromised", "official notice", "subpoena", "jury duty",
-                "federal investigation", "compliance notice", "homeland security", "court proceedings",
-                "law enforcement request", "background check required", "mandatory compliance"
-            ],
-            color: "text-purple-500 bg-purple-100 px-1 rounded"
-        },
+    const categoryColors = {
+        urgency: "text-red-600 bg-red-100",
+        shady: "text-pink-600 bg-pink-100",
+        overpromise: "text-yellow-600 bg-yellow-100",
+        unnatural: "text-blue-600 bg-blue-100",
+        authority: "text-purple-600 bg-purple-100",
+    };
+
+    const handleCheckSpam = async () => {
+        if (!subject || !body) return;
+        checkSpam(subject, body);
     };
 
     useEffect(() => {
-        let updatedCounts = { urgency: 0, shady: 0, overpromise: 0, unnatural: 0, authority: 0 };
-        let modifiedText = inputText;
+        if (result) {
+            const { highlighted, score, suggestionsList } = processSpamResult(result);
+            setHighlightedText(highlighted);
+            setSpamScore(score);
+            setSuggestions(suggestionsList);
+        }
+    }, [result]);
 
-        Object.entries(spamIndicators).forEach(([category, { words, color }]) => {
-            words.forEach((word) => {
-                const regex = new RegExp(`\\b${word}\\b`, "gi");
-                const matches = inputText.match(regex);
-                if (matches) {
-                    updatedCounts[category] += matches.length;
-                    modifiedText = modifiedText.replace(regex, `<span class="${color}">${word}</span>`);
-                }
-            });
-        });
-
-        setSpamCounts(updatedCounts);
-        setHighlightedText(modifiedText);
-
-        // Update word and letter count
-        const words = inputText.trim().split(/\s+/).filter(word => word !== "");
+    useEffect(() => {
+        const words = body.trim().split(/\s+/).filter(word => word !== "");
         setWordCount(words.length);
-        setLetterCount(inputText.replace(/\s+/g, "").length);
+        setLetterCount(body.replace(/\s+/g, "").length);
         setReadTime(words.length > 0 ? `${Math.ceil(words.length / 200)} min` : "0 sec");
+    }, [body]);
 
-    }, [inputText]);
+    const processSpamResult = (data) => {
+        try {
+            const jsonString = data.replace(/```json|```/g, "").trim();
+            const parsedData = JSON.parse(jsonString);
+            let highlighted = body;
+            let suggestionsList = [];
+
+            Object.entries(parsedData.categories).forEach(([category, words]) => {
+                words.forEach(({ word, suggestion }) => {
+                    highlighted = highlighted.replace(
+                        new RegExp(`\\b${word}\\b`, "gi"),
+                        `<span class="px-1 ${categoryColors[category]} font-semibold rounded">${word}</span>`
+                    );
+                    suggestionsList.push({ word, suggestion, category });
+                });
+            });
+
+            return {
+                highlighted,
+                score: parsedData.spam_score || 0,
+                suggestionsList
+            };
+        } catch (error) {
+            console.error("Error processing spam result:", error);
+            return { highlighted: body, score: 0, suggestionsList: [] };
+        }
+    };
 
     return (
         <section className="flex items-center bg-gradient-to-br from-[#f9fafb] to-[#e5e7eb] py-16 min-h-screen relative">
-            {/* Background Accents */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#f9fafb]/50 to-[#e5e7eb]/50 z-0"></div>
-            <div className="absolute -bottom-16 right-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
-
-            <motion.div
-                className="absolute top-50 right-16 w-12 h-12 bg-accent/20 rounded-full blur-md"
-                animate={{ y: [0, -20, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            ></motion.div>
-
-            <div className="container mx-auto px-6 lg:px-12 text-center max-w-5xl mt-24 z-10">
+            <div className="container mx-auto px-6 lg:px-12 text-center max-w-5xl mt-24">
                 <motion.h2
                     variants={fadeIn("down", 0.2)}
                     initial="hidden"
@@ -113,53 +83,87 @@ const SpamChecker = () => {
                     viewport={{ once: true, amount: 0.6 }}
                     className="text-4xl font-bold text-gray-800 mb-6"
                 >
-                    Spam Checker – Analyze Your Email Content Instantly
+                    📩 Spam Checker – AI-Powered Analysis
                 </motion.h2>
 
                 <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                    Ensure your email content is <b>spam-free</b> before sending. Our tool <b>detects spam triggers</b>,
-                    <b> overpromises</b>, and <b>shady words</b> that might <b>land your emails in spam folders</b>.
+                    Ensure your email content is <b>spam-free</b> before sending. Our AI tool <b>analyzes spam words, urgency, overpromises</b> and helps you <b>improve email deliverability</b>.
                 </p>
 
-                <div className="bg-white shadow-md p-6 rounded-lg">
-                    <textarea
-                        className="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400"
-                        placeholder="Paste your email content here..."
-                        value={inputText}
-                        onChange={(e) => setInputText(e.target.value)}
-                    ></textarea>
-                </div>
+                <input
+                    type="text"
+                    placeholder="Enter Email Subject..."
+                    className="w-full p-3 mb-4 border border-gray-300 rounded-lg shadow-sm"
+                    value={subject}
+                    onChange={(e) => setSubject(e.target.value)}
+                />
 
-                {/* Live Updating Paragraph with Highlighted Spam Words */}
-                <div className="mt-6 bg-white p-6 rounded-lg shadow-lg text-left">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">📜 Preview with Spam Highlights</h3>
-                    <p
-                        className="text-gray-700 leading-relaxed text-lg"
-                        dangerouslySetInnerHTML={{ __html: highlightedText }}
-                    ></p>
-                </div>
+                <textarea
+                    placeholder="Paste email content here..."
+                    className="w-full h-40 p-4 border border-gray-300 rounded-lg shadow-sm"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                ></textarea>
 
-                {/* Spam Word Counts */}
-                <div className="mt-6 bg-white p-6 rounded-lg shadow-lg text-left">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">📊 Spam Word Count</h3>
-                    <ul className="text-lg text-gray-700 space-y-2">
-                        <li className="text-red-500">🚨 Urgency Words: <b>{spamCounts.urgency}</b></li>
-                        <li className="text-pink-500">🔍 Shady Words: <b>{spamCounts.shady}</b></li>
-                        <li className="text-yellow-500">💡 Overpromise Words: <b>{spamCounts.overpromise}</b></li>
-                        <li className="text-blue-500">🤖 Unnatural Words: <b>{spamCounts.unnatural}</b></li>
-                        <li className="text-purple-500">⚖️ Authority Words: <b>{spamCounts.authority}</b></li>
-                    </ul>
-                </div>
+                <button
+                    onClick={handleCheckSpam}
+                    className="w-full bg-blue-500 text-white py-3 mt-4 rounded-lg hover:bg-blue-600 transition shadow-lg flex justify-center items-center"
+                    disabled={loading}
+                >
+                    {loading ? (
+                        <div className="h-5 w-5 border-t-2 border-white border-solid rounded-full animate-spin"></div>
+                    ) : (
+                        "Check Spam"
+                    )}
+                </button>
 
-                {/* Word Stats */}
-                <div className="mt-6 bg-white p-6 rounded-lg shadow-lg text-left">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-3">📊 Text Stats</h3>
-                    <ul className="text-lg text-gray-700 space-y-2">
-                        <li>📝 <b>Words:</b> {wordCount}</li>
-                        <li>🔡 <b>Letters:</b> {letterCount}</li>
-                        <li>⏳ <b>Estimated Read Time:</b> {readTime}</li>
-                    </ul>
-                </div>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
+
+                {result && (
+                    <>
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow-lg">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">📊 Spam Score</h3>
+                            <div className="w-full bg-gray-300 rounded-full h-4">
+                                <div
+                                    className={`h-4 rounded-full ${spamScore < 50 ? "bg-green-500" : spamScore < 80 ? "bg-yellow-500" : "bg-red-500"}`}
+                                    style={{ width: `${spamScore}%` }}
+                                ></div>
+                            </div>
+                            <p className="text-lg text-gray-700 mt-2">
+                                <b>{spamScore}/100</b> - {spamScore < 50 ? "Good" : spamScore < 80 ? "Needs Improvement" : "High Spam Risk"}
+                            </p>
+                        </div>
+
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow-lg text-left">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">📜 Email Preview</h3>
+                            <div className="border-b pb-2 text-xl font-bold">{subject}</div>
+                            <p
+                                className="text-gray-700 leading-relaxed text-lg whitespace-pre-line mt-2"
+                                dangerouslySetInnerHTML={{ __html: highlightedText }}
+                            ></p>
+                        </div>
+
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow-lg text-left">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">💡 Suggested Improvements</h3>
+                            <ul className="text-lg text-gray-700 space-y-2">
+                                {suggestions.map((s, index) => (
+                                    <li key={index} className={`p-3 rounded-lg shadow-md ${categoryColors[s.category]}`}>
+                                        <b className="text-gray-900">{s.word}</b> → <span className="text-gray-800 italic">{s.suggestion}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="mt-6 bg-white p-6 rounded-lg shadow-lg text-left">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">📝 Text Stats</h3>
+                            <ul className="text-lg text-gray-700 space-y-2">
+                                <li>📝 <b>Words:</b> {wordCount}</li>
+                                <li>🔡 <b>Letters:</b> {letterCount}</li>
+                                <li>⏳ <b>Estimated Read Time:</b> {readTime}</li>
+                            </ul>
+                        </div>
+                    </>
+                )}
 
                 <div className="relative mt-16 mb-10">
                     <div className="w-full h-1 bg-gradient-to-r from-gray-300 via-green-500 to-gray-300 rounded-full"></div>
